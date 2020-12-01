@@ -11,7 +11,7 @@ title: Projects
 ## Projects for Data Interpretation: R
 
 - [Flu Project: Exploring dpylr and the tidyverse](/Project_1_website.html/)
-- [Pizza Project: Data stats and interpreting logistic regressions](/Project_2.Rmd/)
+- [Pizza Project: Data stats and interpreting logistic regressions](/Project_2.html/)
 
 
 ## Lab Projects: Hofmann Lab
