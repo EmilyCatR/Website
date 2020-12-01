@@ -22,6 +22,7 @@ theme = "hugo-sustain"
 [params.social]
   Github        = "EmilyCatR"
   Email         = "emilyc1028@gmail.com"
+  instagram     = "texasadventuretime"
 
 ## Main Menu
 [[menu.main]]

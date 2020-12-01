@@ -2,7 +2,6 @@
 author: "Emily"
 output: html_document
 ---
-
 ## Projects for Data Interpretation: R
 
 - [Flu Project: Exploring dpylr and the tidyverse](/Project_1_website.html/)
