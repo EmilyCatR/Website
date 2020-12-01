@@ -10,7 +10,7 @@ title: Projects
 
 ## Projects for Data Interpretation: R
 
-- [Flu Project: Exploring dpylr and the tidyverse](/project1website.Rmd/)
+- [Flu Project: Exploring dpylr and the tidyverse](/Project_1_website.html/)
 - [Pizza Project: Data stats and interpreting logistic regressions](/Project_2.Rmd/)
 
 
