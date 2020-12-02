@@ -4,8 +4,8 @@ output: html_document
 ---
 ## Projects for Data Interpretation: R
 
-- [Flu Project: Exploring dpylr and the tidyverse](/Project1website.Rmd/)
-- [Pizza Project: Data stats and interpreting logistic regressions](/Project_2.Rmd/)
+- [Flu Project: Exploring dpylr and the tidyverse](/Project_1_website.html/)
+- [Pizza Project: Data stats and interpreting logistic regressions](/Project_2.Rmd)
 
 
 ## Lab Projects: Hofmann Lab
@@ -13,7 +13,7 @@ output: html_document
 - [Designing a Protocol](/Color_Protocol.pdf/)
 - [Poster for Spring Undergradute Research Forum](/Emily_Reed_Lab_Poster_URF2020_copy.pdf/)
 
-
+s
 ## Research Papers for Classes
 
 - [Animal Behavior: swordtail fish report](/Animal_Behavior_Project_Paper.pdf)
