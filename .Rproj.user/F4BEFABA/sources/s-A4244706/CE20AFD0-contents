@@ -4,8 +4,8 @@ output: html_document
 ---
 ## Projects for Data Interpretation: R
 
-- [Flu Project: Exploring dpylr and the tidyverse](Users/emilyreed/Desktop/Website/content/project1.Rmd/)
-- [Pizza Project: Data stats and interpreting logistic regressions](/Users/emilyreed/Desktop/Website/content/project2.Rmd/)
+- [Flu Project: Exploring dpylr and the tidyverse](content/project1.Rmd/)
+- [Pizza Project: Data stats and interpreting logistic regressions](/content/project2.Rmd/)
 
 
 ## Lab Projects: Hofmann Lab
