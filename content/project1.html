@@ -1,0 +1,318 @@
+---
+title: "Project"
+author: "Emily"
+date: "9/30/2020"
+output: html_document
+---
+
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<p>This data is about flu cases/hospitalizations/deaths per state and percent of people who recieved the flu vaccination 18+ years in 2009-2010 Swine Flu Epidemic.</p>
+<pre><code>## ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
+## ✓ tibble  3.0.1     ✓ dplyr   1.0.2
+## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
+## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
+<pre><code>## ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<p>Flu cases has 56 observations (1 per state, plus a few territories). &quot;cases&quot;, &quot;hospitalizations&quot;, and &quot;deaths&quot; refers to the number of cases, hospital visits, and death due to influenza reported in that state for the 2009-2010 flu season. This data is NOT separated by age.</p>
+<pre class="r"><code>#flu cases table
+#turning cases and hospitalizations into numeric values for later calculations
+flu_cases1 &lt;- flu_cases %&gt;% mutate_at(&quot;Hospitalizations&quot;, as.numeric) </code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `Hospitalizations`.
+## ℹ NAs introduced by coercion
+## ℹ Input `Hospitalizations` is `.Primitive(&quot;as.double&quot;)(Hospitalizations)`.</code></pre>
+<pre><code>## Warning in mask$eval_all_mutate(dots[[i]]): NAs introduced by coercion</code></pre>
+<pre class="r"><code>glimpse(flu_cases1)</code></pre>
+<pre><code>## Rows: 56
+## Columns: 4
+## $ State            &lt;chr&gt; &quot;Alabama&quot;, &quot;Alaska&quot;, &quot;Arizona&quot;, &quot;Arkansas&quot;, &quot;Califor…
+## $ cases            &lt;dbl&gt; 2453, 1563, 8726, 154, 10545, 1321, 5491, 381, 54, 3…
+## $ Hospitalizations &lt;dbl&gt; NA, 18, NA, NA, NA, 578, 766, NA, NA, NA, 860, NA, 3…
+## $ Deaths           &lt;int&gt; 19, 13, 152, 32, 657, 70, 35, 7, 1, 230, 81, 13, 23,…</code></pre>
+<pre class="r"><code>head(flu_cases1)</code></pre>
+<pre><code>##        State cases Hospitalizations Deaths
+## 1    Alabama  2453               NA     19
+## 2     Alaska  1563               18     13
+## 3    Arizona  8726               NA    152
+## 4   Arkansas   154               NA     32
+## 5 California 10545               NA    657
+## 6   Colorado  1321              578     70</code></pre>
+<p>Vaccinations is a dataset with 51 observations (one per state, plus District of Colubmbia). &quot;Perc_vaccinated&quot; refers to the percentage of each age group vaccinated in each state in the 2009-2010 flu season.</p>
+<pre class="r"><code>#flu vaccinations table
+glimpse(vaccinations)</code></pre>
+<pre><code>## Rows: 51
+## Columns: 4
+## $ Names                           &lt;chr&gt; &quot;Alabama&quot;, &quot;Alaska&quot;, &quot;Arizona&quot;, &quot;Arka…
+## $ perc_vaccinated.less6months     &lt;dbl&gt; 45.8, 45.1, 45.9, 55.2, 45.4, 49.7, 5…
+## $ perc_vaccinated.6months_17years &lt;dbl&gt; 53.2, 51.3, 53.1, 66.0, 53.3, 55.8, 6…
+## $ perc_vaccinated.18years_up      &lt;dbl&gt; 43.0, 42.9, 43.6, 49.4, 42.3, 47.8, 4…</code></pre>
+<pre class="r"><code>head(vaccinations)</code></pre>
+<pre><code>##        Names perc_vaccinated.less6months perc_vaccinated.6months_17years
+## 1    Alabama                        45.8                            53.2
+## 2     Alaska                        45.1                            51.3
+## 3    Arizona                        45.9                            53.1
+## 4   Arkansas                        55.2                            66.0
+## 5 California                        45.4                            53.3
+## 6   Colorado                        49.7                            55.8
+##   perc_vaccinated.18years_up
+## 1                       43.0
+## 2                       42.9
+## 3                       43.6
+## 4                       49.4
+## 5                       42.3
+## 6                       47.8</code></pre>
+<p>Vaccinations dataset needs to be 'tidy'ed!</p>
+<pre class="r"><code>vaccinations2 &lt;- vaccinations %&gt;% 
+  pivot_longer(2:4, names_to=&quot;age_group&quot;,values_to=&quot;percentage_vaccinated&quot;) %&gt;% 
+  separate(&quot;age_group&quot;, into=c(&quot;percent&quot;, &quot;age_group&quot;), sep=&quot;\\.&quot;, convert=T ) %&gt;%
+  select(-percent) %&gt;% rename(&quot;State&quot;=&quot;Names&quot;)
+
+vaccinations2</code></pre>
+<pre><code>## # A tibble: 153 x 3
+##    State    age_group       percentage_vaccinated
+##    &lt;chr&gt;    &lt;chr&gt;                           &lt;dbl&gt;
+##  1 Alabama  less6months                      45.8
+##  2 Alabama  6months_17years                  53.2
+##  3 Alabama  18years_up                       43  
+##  4 Alaska   less6months                      45.1
+##  5 Alaska   6months_17years                  51.3
+##  6 Alaska   18years_up                       42.9
+##  7 Arizona  less6months                      45.9
+##  8 Arizona  6months_17years                  53.1
+##  9 Arizona  18years_up                       43.6
+## 10 Arkansas less6months                      55.2
+## # … with 143 more rows</code></pre>
+<pre class="r"><code>#Lets join the data!
+cases_vaccinations &lt;- left_join(flu_cases1, vaccinations2, by=&quot;State&quot;, convert=T)
+glimpse(cases_vaccinations)</code></pre>
+<pre><code>## Rows: 156
+## Columns: 6
+## $ State                 &lt;chr&gt; &quot;Alabama&quot;, &quot;Alabama&quot;, &quot;Alabama&quot;, &quot;Alaska&quot;, &quot;Ala…
+## $ cases                 &lt;dbl&gt; 2453, 2453, 2453, 1563, 1563, 1563, 8726, 8726,…
+## $ Hospitalizations      &lt;dbl&gt; NA, NA, NA, 18, 18, 18, NA, NA, NA, NA, NA, NA,…
+## $ Deaths                &lt;int&gt; 19, 19, 19, 13, 13, 13, 152, 152, 152, 32, 32, …
+## $ age_group             &lt;chr&gt; &quot;less6months&quot;, &quot;6months_17years&quot;, &quot;18years_up&quot;,…
+## $ percentage_vaccinated &lt;dbl&gt; 45.8, 53.2, 43.0, 45.1, 51.3, 42.9, 45.9, 53.1,…</code></pre>
+<pre class="r"><code>head(cases_vaccinations)</code></pre>
+<pre><code>##     State cases Hospitalizations Deaths       age_group percentage_vaccinated
+## 1 Alabama  2453               NA     19     less6months                  45.8
+## 2 Alabama  2453               NA     19 6months_17years                  53.2
+## 3 Alabama  2453               NA     19      18years_up                  43.0
+## 4  Alaska  1563               18     13     less6months                  45.1
+## 5  Alaska  1563               18     13 6months_17years                  51.3
+## 6  Alaska  1563               18     13      18years_up                  42.9</code></pre>
+<hr />
+<p>Using summary statistics:</p>
+<div id="finding-the-average-vaccinated-for-each-state-across-all-age-groups" class="section level1">
+<h1>Finding the average % vaccinated for each state across all age groups</h1>
+<pre class="r"><code>#Find mean % of vaccinations across all age groups for each state
+cases_vaccinations &lt;- cases_vaccinations %&gt;% group_by(State) %&gt;% mutate(average_vaccinations= mean(percentage_vaccinated))
+cases_vaccinations</code></pre>
+<pre><code>## # A tibble: 156 x 7
+## # Groups:   State [56]
+##    State cases Hospitalizations Deaths age_group percentage_vacc…
+##    &lt;chr&gt; &lt;dbl&gt;            &lt;dbl&gt;  &lt;int&gt; &lt;chr&gt;                &lt;dbl&gt;
+##  1 Alab…  2453               NA     19 less6mon…             45.8
+##  2 Alab…  2453               NA     19 6months_…             53.2
+##  3 Alab…  2453               NA     19 18years_…             43  
+##  4 Alas…  1563               18     13 less6mon…             45.1
+##  5 Alas…  1563               18     13 6months_…             51.3
+##  6 Alas…  1563               18     13 18years_…             42.9
+##  7 Ariz…  8726               NA    152 less6mon…             45.9
+##  8 Ariz…  8726               NA    152 6months_…             53.1
+##  9 Ariz…  8726               NA    152 18years_…             43.6
+## 10 Arka…   154               NA     32 less6mon…             55.2
+## # … with 146 more rows, and 1 more variable: average_vaccinations &lt;dbl&gt;</code></pre>
+<pre class="r"><code>#find states with average vaccinations % that are above the National average vaccination %
+national_average_vaccinated &lt;- cases_vaccinations %&gt;% filter(!is.na(average_vaccinations)) %&gt;%  summarize(national_avg=mean(average_vaccinations)) %&gt;% summarize(mean(national_avg)) </code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code>national_average_vaccinated</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   `mean(national_avg)`
+##                  &lt;dbl&gt;
+## 1                 51.6</code></pre>
+<pre class="r"><code>cases_vaccinations%&gt;% filter(average_vaccinations&gt;national_average_vaccinated) %&gt;% select(State, average_vaccinations) %&gt;% summarize(avg_vaccination_percent = mean(average_vaccinations)) %&gt;% arrange(desc(avg_vaccination_percent))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre><code>## # A tibble: 21 x 2
+##    State         avg_vaccination_percent
+##    &lt;chr&gt;                           &lt;dbl&gt;
+##  1 Rhode Island                     66.3
+##  2 Hawaii                           64.5
+##  3 Vermont                          62.3
+##  4 Massachusetts                    61.6
+##  5 South Dakota                     61.0
+##  6 Maine                            60.6
+##  7 New Hampshire                    58.9
+##  8 Virginia                         58.2
+##  9 Iowa                             57.9
+## 10 Minnesota                        57.4
+## # … with 11 more rows</code></pre>
+<div id="lets-see-which-states-had-the-most-cases-of-flu.-which-states-had-the-fewest-percent-average-vaccinated-citizens" class="section level2">
+<h2>Lets see which states had the most cases of flu. Which states had the fewest percent average vaccinated citizens?</h2>
+<pre class="r"><code>#Which states had the most cases of flu
+cases_vaccinations %&gt;% 
+  group_by(State) %&gt;% 
+  summarize(case=mean(cases)) %&gt;% 
+  arrange(desc(case))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre><code>## # A tibble: 56 x 2
+##    State         case
+##    &lt;chr&gt;        &lt;dbl&gt;
+##  1 Pennsylvania 10940
+##  2 California   10545
+##  3 Wisconsin     9579
+##  4 Arizona       8726
+##  5 Texas         6128
+##  6 Nevada        5516
+##  7 Connecticut   5491
+##  8 Florida       3676
+##  9 Illinois      3387
+## 10 New York      2738
+## # … with 46 more rows</code></pre>
+<pre class="r"><code>#Which states had the lowest average % vaccinated across all age groups
+cases_vaccinations %&gt;% 
+  group_by(State) %&gt;%
+  summarize(avg_vaccination_percent = mean(average_vaccinations)) %&gt;% 
+  arrange(avg_vaccination_percent)</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre><code>## # A tibble: 56 x 2
+##    State       avg_vaccination_percent
+##    &lt;chr&gt;                         &lt;dbl&gt;
+##  1 Nevada                         40.2
+##  2 Idaho                          43.7
+##  3 Michigan                       43.7
+##  4 Florida                        43.8
+##  5 Georgia                        43.8
+##  6 Mississippi                    44.3
+##  7 Montana                        44.3
+##  8 Oregon                         46.1
+##  9 Alaska                         46.4
+## 10 Missouri                       46.6
+## # … with 46 more rows</code></pre>
+<pre class="r"><code>#Do the states that had the most flu match with the states that had the lowest average % vaccinated? (Nope)
+cases_vaccinations %&gt;% 
+  group_by(State) %&gt;% 
+  summarize(case_in_state=mean(cases), avg_vaccination_state=(mean(average_vaccinations))) %&gt;% 
+  arrange(desc(case_in_state), avg_vaccination_state) %&gt;% 
+  select(State, case_in_state, avg_vaccination_state)</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre><code>## # A tibble: 56 x 3
+##    State        case_in_state avg_vaccination_state
+##    &lt;chr&gt;                &lt;dbl&gt;                 &lt;dbl&gt;
+##  1 Pennsylvania         10940                  51.8
+##  2 California           10545                  47  
+##  3 Wisconsin             9579                  48.9
+##  4 Arizona               8726                  47.5
+##  5 Texas                 6128                  47.9
+##  6 Nevada                5516                  40.2
+##  7 Connecticut           5491                  53.3
+##  8 Florida               3676                  43.8
+##  9 Illinois              3387                  48.5
+## 10 New York              2738                  50.6
+## # … with 46 more rows</code></pre>
+</div>
+<div id="make-new-variables-using-mutate-for-mean-and-sd-for-each-vaccinated-in-each-age-group-average-cases-hospitalizations-and-deaths" class="section level2">
+<h2>Make new variables using mutate for mean and sd for each % vaccinated in each age group average cases, hospitalizations and deaths</h2>
+<p>Finding the national average of cases</p>
+<pre class="r"><code>national_average_cases &lt;- cases_vaccinations %&gt;% summarize(average_cases_US= mean(cases)) %&gt;% summarize(average_cases_US=mean(average_cases_US))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code>national_average_cases</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   average_cases_US
+##              &lt;dbl&gt;
+## 1            2061.</code></pre>
+<p>Finding the national sd of cases between states</p>
+<pre class="r"><code>national_sd_cases &lt;- cases_vaccinations %&gt;% summarize(sd_cases_US= mean(cases)) %&gt;% summarize(sd_cases=sd(sd_cases_US))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code>national_sd_cases</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   sd_cases
+##      &lt;dbl&gt;
+## 1    2578.</code></pre>
+<p>Finding the national average of hospitalizations</p>
+<pre class="r"><code>national_average_hospitalizations &lt;- cases_vaccinations %&gt;% 
+  filter(!is.na(Hospitalizations)) %&gt;% 
+  summarize(average_hosp_US= mean(Hospitalizations)) %&gt;%
+  summarize(average_hosp_US=mean(average_hosp_US))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code>national_average_hospitalizations</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   average_hosp_US
+##             &lt;dbl&gt;
+## 1            407.</code></pre>
+<p>Finding the national sd of hospitalizations between states</p>
+<pre class="r"><code>national_sd_hospitalizations&lt;- cases_vaccinations %&gt;% 
+  filter(!is.na(Hospitalizations)) %&gt;% 
+  summarize(sd_hosp_US= mean(cases)) %&gt;% 
+  summarize(sd_hosp_US=sd(sd_hosp_US))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code>national_sd_hospitalizations</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   sd_hosp_US
+##        &lt;dbl&gt;
+## 1      1162.</code></pre>
+<p>Finding the national average of deaths (this data is obviously not very accurate, oop)</p>
+<pre class="r"><code>national_average_deaths &lt;- cases_vaccinations %&gt;% 
+  filter(!is.na(Deaths)) %&gt;% 
+  summarize(average_deaths_US= mean(Deaths)) %&gt;%
+  summarize(average_deaths_US=mean(average_deaths_US))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code>national_average_deaths</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   average_deaths_US
+##               &lt;dbl&gt;
+## 1              60.8</code></pre>
+<p>Finding the national sd of deaths between states</p>
+<pre class="r"><code>national_sd_deaths&lt;- cases_vaccinations %&gt;% 
+  filter(!is.na(Deaths)) %&gt;% 
+  summarize(sd_deaths_US= mean(cases)) %&gt;% 
+  summarize(sd_deaths_US=sd(sd_deaths_US))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code>national_sd_deaths</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   sd_deaths_US
+##          &lt;dbl&gt;
+## 1        2578.</code></pre>
+</div>
+</div>
+<div id="find-quantile-min-max-for-all-numeric-variables-make-into-table-format-using-ktables" class="section level1">
+<h1>Find quantile, min, max for all numeric variables (make into table format using ktables)</h1>
+</div>
+<div id="make-a-correlation-heat-map-of-numeric-variables" class="section level1">
+<h1>make a correlation heat map of numeric variables</h1>
+</div>
+<div id="average-vaccination-for-all-age-groups-and-cases-per-state-graph-scatterplot" class="section level1">
+<h1>Average vaccination % (for all age groups) and cases per state graph (scatterplot)</h1>
+<pre class="r"><code>cases_vaccinations %&gt;% 
+  group_by(State) %&gt;% 
+  filter(!is.na(average_vaccinations)) %&gt;% 
+  mutate(avg_vaccination_percent = mean(average_vaccinations)) %&gt;% 
+  select(State, avg_vaccination_percent, cases, age_group) %&gt;% 
+  filter(cases &gt; national_average_cases) %&gt;% 
+  ggplot()+
+  geom_point(aes(avg_vaccination_percent, cases, col=State))+
+  ggtitle(&quot;Average % Vaccinations and Cases for State Cases Above National Average&quot;)+
+  xlab(&quot;Average Vaccination Percent&quot;)+
+  ylab(&quot;Number of Cases&quot;)</code></pre>
+<p><img src="/project1_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>States vaccination percentage for each age group, facet by state, summary stat????</p>
+</div>
+<div id="want-to-color-facet-title-whether-they-were-over-national-average-number-of-cases-or-by-quantile-or-under-and-fix-order-of-x-variables" class="section level1">
+<h1>want to color facet title whether they were over national average number of cases or by quantile, or under and fix order of x variables</h1>
+<pre class="r"><code>cases_vaccinations %&gt;% 
+  group_by(State) %&gt;% 
+  filter(!is.na(percentage_vaccinated)) %&gt;% 
+  ggplot(aes(x=age_group ,y=percentage_vaccinated, fill=age_group))+
+  geom_bar(stat=&quot;identity&quot;) +
+  facet_wrap(~State) +
+  geom_hline(yintercept = 51.62267, linetype=&quot;longdash&quot;)+
+  theme(axis.title.x=element_blank(), axis.text.x=element_blank())+
+  ylab(&quot;Percent Vaccinated&quot;) </code></pre>
+<p><img src="/project1_files/figure-html/unnamed-chunk-17-1.png" width="1248" /></p>
+<pre class="r"><code>#filter(case_vaccinations$case&gt;national_average_cases) %&gt;% 
+  #theme(element_rect(fill=&quot;red&quot;))+</code></pre>
+</div>

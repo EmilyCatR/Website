@@ -60,7 +60,6 @@ library(rstatix)
 ```
 <br>
 ```{r}
-setwd("/Users/emilyreed/Desktop")
 pizza <- read.csv("pizza_data.csv") 
 glimpse(pizza)
 ```
