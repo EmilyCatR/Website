@@ -5,7 +5,7 @@ output: html_document
 ## Projects for Data Interpretation: R
 
 - [Flu Project: Exploring dpylr and the tidyverse](/project1.Rmd/)
-- [Pizza Project: Data stats and interpreting logistic regressions](/project2.Rmd)
+- [Pizza Project: Data stats and interpreting logistic regressions](/project2.Rmd/)
 
 
 ## Lab Projects: Hofmann Lab

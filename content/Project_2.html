@@ -195,7 +195,7 @@ sapply(split(DVs, group), mshapiro_test)</code></pre>
 ggplot(pizza_no_NAs, aes(x = rate, y = tip_perc)) + 
     geom_point(alpha = 0.5) + geom_density2d(aes(color = position_worked)) + 
     facet_wrap(~position_worked)</code></pre>
-<p><img src="/Project_2_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/project_2_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>pizza_no_NAs &lt;- pizza_no_NAs %&gt;% relocate(tip_perc, 
     .after = total_tips)
 
@@ -308,14 +308,14 @@ plot2 &lt;- ggplot(new, aes(x = tip_perc, fill = apartment_or_house)) +
     ggtitle(&quot;Randomization Test&quot;)
 
 grid.arrange(plot1, plot2, ncol = 2, top = &quot;Observed vs Randomization tip percentages&quot;)</code></pre>
-<p><img src="/Project_2_files/figure-html/unnamed-chunk-8-1.png" width="1440" style="display: block; margin: auto;" /></p>
+<p><img src="/project_2_files/figure-html/unnamed-chunk-8-1.png" width="1440" style="display: block; margin: auto;" /></p>
 <pre class="r"><code># visualize test stat
 
 {
     hist(rand_dist, main = &quot;&quot;, ylab = &quot;&quot;)
     abline(v = c(-0.1614303, 0.1614303), col = &quot;red&quot;)
 }</code></pre>
-<p><img src="/Project_2_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/project_2_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>The histogram depicts the distance of means in the random data set (created by scrambling the original data), as well as the original observed difference in means (red vertical lines). Most of the random data is within the original data observed difference of means. There is lots of data that falls beyond the observed difference (reflected in our large calculated p-value of .2302).</p>
 <hr />
 </div>
@@ -413,13 +413,13 @@ summary(fit)</code></pre>
 pizza_new_area %&gt;% ggplot(aes(new_area_class, tip_perc, 
     color = time_group)) + geom_point() + geom_smooth(method = &quot;lm&quot;, 
     se = F) + geom_jitter()</code></pre>
-<p><img src="/Project_2_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/project_2_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="checking-assumptions-1" class="section level3">
 <h3>Checking assumptions</h3>
 <pre class="r"><code># checking for linearity
 plot(fit, 1)  #line is essentially horizontal, indicating linearity, not overall great</code></pre>
-<p><img src="/Project_2_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/project_2_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code># checking for normality
 resids &lt;- fit$residuals
 fitvals &lt;- fit$fitted.values
@@ -427,7 +427,7 @@ par(mfrow = c(1, 2))
 hist(resids)
 qqnorm(resids)
 qqline(resids, col = &quot;red&quot;)  #looks mostly normal, but a few outliers (high tip_perc) are disturbing the normality</code></pre>
-<p><img src="/Project_2_files/figure-html/unnamed-chunk-12-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/project_2_files/figure-html/unnamed-chunk-12-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code># checking for homoskedasticity
 bptest(fit)  #pvalue&gt;.05, so fail to reject the null hypothesis, homoskedasticity is met</code></pre>
 <pre><code>## 
@@ -626,12 +626,12 @@ pizza_fit$logit &lt;- predict(fit3)
 pizza_fit %&gt;% ggplot(aes(logit, fill = apartment_or_house)) + 
     geom_density(alpha = 0.3) + geom_vline(xintercept = 0, 
     lty = 2)</code></pre>
-<p><img src="/Project_2_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/project_2_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code># ROC plot
 ROCplot &lt;- ggplot(pizza_fit) + geom_roc(aes(d = y, 
     m = prob), n.cuts = 0)
 ROCplot</code></pre>
-<p><img src="/Project_2_files/figure-html/unnamed-chunk-15-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/project_2_files/figure-html/unnamed-chunk-15-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code># AUC width
 calc_auc(ROCplot)</code></pre>
 <pre><code>##   PANEL group       AUC
@@ -785,12 +785,12 @@ pizza2 %&gt;%
   geom_jitter(aes(x=1:109,y=tip_perc))+
   geom_jitter(aes(x=20, y=avg_tip_perc), color=&quot;red&quot;, shape=&quot;square&quot;)+
   facet_wrap(~street_name)</code></pre>
-<p><img src="/Project_2_files/figure-html/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/project_2_files/figure-html/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Correlation heat map of all variables</p>
 <pre class="r"><code># correlation for all numeric variables
 pizza_new_area &lt;- pizza_new_area %&gt;% select(-time2)
 ggcorr(pizza_new_area, label = TRUE)</code></pre>
-<p><img src="/Project_2_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/project_2_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code># for write-ins at apartments, whats the mean
 # tip_perc?
 pizza2 %&gt;% filter(apartment_or_house == &quot;A&quot;) %&gt;% filter(tip_method == 
