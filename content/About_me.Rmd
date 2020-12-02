@@ -14,7 +14,7 @@ title: About me
 #About Me page!
 <br>
 
-![](/Users/emilyreed/Desktop/Website/static/img/grad_photo.png)
+![](/./About_me_files/grad_photo.png)
 
 
 </center>

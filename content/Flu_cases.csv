@@ -1,0 +1,57 @@
+﻿State,cases,Hospitalizations,Deaths
+Alabama,2453.00,NA,19
+Alaska,1563.00,18,13
+Arizona,8726.00,"1,897",152
+Arkansas,154.00,NA,32
+California,10545.00,"8,589",657
+Colorado,1321.00,578,70
+Connecticut,5491.00,766,35
+Delaware,381.00,NA,7
+District of Columbia,54.00,NA,1
+Florida,3676.00,"1,227",230
+Georgia,1012.00,860,81
+Hawaii,2221.00,NA,13
+Idaho,1171.00,389,23
+Illinois,3387.00,"3,042",111
+Indiana,782.00,NA,39
+Iowa,929.00,700,41
+Kansas,1201.00,NA,29
+Kentucky,2092.00,NA,39
+Louisiana,1876.00,NA,52
+Maine,2232.00,230,21
+Maryland,1772.00,996,45
+Massachusetts,1979.00,397,33
+Michigan,655.00,NA,88
+Minnesota,2220.00,"1,813",61
+Mississippi,1292.00,NA,26
+Missouri,1523.00,NA,17
+Montana,961.00,9,19
+Nebraska,430.00,40,15
+Nevada,5516.00,NA,44
+New Hampshire,722.00,NA,10
+New Jersey,1006.00,512,42
+New Mexico,1007.00,"1,007",58
+New York,2738.00,909,206
+North Carolina,638.00,267,107
+North Dakota,650.00,60,2
+Ohio,227.00,NA,52
+Oklahoma,237.00,7,44
+Oregon,1833.00,"1,419",79
+Pennsylvania,10940.00,NA,78
+Rhode Island,203.00,76,13
+South Carolina,1634.00,NA,49
+South Dakota,2081.00,422,23
+Tennessee,1163.00,NA,57
+Texas,6128.00,"1,994",231
+Utah,988.00,302,48
+Vermont,404.00,149,3
+Virginia,327.00,NA,37
+Washington,1882.00,"1,561",99
+West Virginia,1214.00,853,22
+Wisconsin,9579.00,"1,317",55
+Wyoming,725.00,NA,10
+American Samoa,90.00,NA,1
+Guam,338.00,NA,2
+Northern Mariana Islands,71.00,NA,0
+Puerto Rico,908.00,NA,60
+U.S. Virgin Islands,80.00,NA,1

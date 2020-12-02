@@ -1,0 +1,283 @@
+﻿Date,area,apartment_or_house,street_name,time,total,tip,tip_method,hours_worked,position_worked
+10/8/20,11,H,cottonweed Trl,NA,41.06,0,write in,4.75,Late
+10/8/20,MAIN,A,350 Cypress Creek,NA,26.48,5.3,pre-tip,4.75,Late
+10/8/20,5,H,Tattler Dr,NA,21,3.15,pre-tip,4.75,Late
+10/8/20,15,A,Altis,NA,14.05,5,pre-tip,4.75,Late
+10/8/20,12,H,Casey Cv,NA,23.78,2.38,pre-tip,4.75,Late
+10/8/20,MAIN,A,2800 Lakeline,NA,25.95,3.89,pre-tip,4.75,Late
+10/8/20,MAIN,A,32018 El Salido,NA,21.08,3.92,cash order,4.75,Late
+10/8/20,15,A,Altis,NA,17.3,5,write in,4.75,Late
+10/8/20,15,A,Altis,NA,16.21,0,write in,4.75,Late
+10/8/20,14,A,12600 Avery Ranch,NA,22.15,3.32,pre-tip,4.75,Late
+10/8/20,14,A,12600 Avery Ranch,NA,20.53,2.05,pre-tip,4.75,Late
+10/8/20,MAIN,A,350 Cypress Creek,NA,19.46,1.98,pre-tip,4.75,Late
+10/8/20,9,H,Sandra Cv,NA,46.5,6.97,pre-tip,4.75,Late
+10/8/20,MAIN,A,2850 Lakeline,NA,17.56,3.51,pre-tip,4.75,Late
+10/9/20,4,H,Somerset Canyon Ln,5:04,36.74,3.67,pre-tip,9,Close
+10/9/20,2,H,Star Light Cir,5:27,19.46,3.89,pre-tip,9,Close
+10/9/20,6,H,Izoro Bnd,NA,20.55,3.08,pre-tip,9,Close
+10/9/20,8,H,Orsobello Pl,NA,25.4,4.6,pre-tip,9,Close
+10/9/20,9,H,Lobelia Dr,6:01,19.45,1.95,pre-tip,9,Close
+10/9/20,7,H,Granite Basin Ct,6:15,21.08,4,pre-tip,9,Close
+10/9/20,1,H,Coomes Pl,6:31,22.7,4.54,pre-tip,9,Close
+10/9/20,14,H,Riveria Dr,6:53,16.21,3.79,pre-tip,9,Close
+10/9/20,16,H,Hickory Run Dr,7:14,29.17,2,pre-tip,9,Close
+10/9/20,MAIN,A,350 Cypress Creek,7:28,17.3,2.6,pre-tip,9,Close
+10/9/20,MAIN,A,350 Cypress Creek,7:28,22.14,5,write in,9,Close
+10/9/20,12,H,Clover Ridge Dr,7:48,43.26,8.65,pre-tip,9,Close
+10/9/20,4,H,Catamaran Cv,8:03,22,2,pre-tip,9,Close
+10/9/20,13,H,Dandridge Dr,8:13,38.36,5,pre-tip,9,Close
+10/9/20,1,H,Culpepper Ln,8:41,22.16,4.43,pre-tip,9,Close
+10/9/20,5,H,Dartford Bnd,9:01,16.21,3,pre-tip,9,Close
+10/9/20,NA,A,11908 Anderson Mill ,9:27,8.11,2,write in,9,Close
+10/9/20,15,A,13010 Ridgeline Blvd,9:45,26.47,2.65,pre-tip,9,Close
+10/9/20,2,H,Harvest Moon Dr,10:02,50.24,7.54,pre-tip,9,Close
+10/9/20,MAIN,A,2000 Lakeline,10:10,45.43,5,pre-tip,9,Close
+10/9/20,MAIN,A,2201 Lakeline ,10:10,25.68,2.57,pre-tip,9,Close
+10/9/20,NA,A,1600 Lakeline,NA,19.44,2.65,cash order,9,Close
+10/9/20,MAIN,A,2101 Lakeline,10:54,42.17,8.43,pre-tip,9,Close
+10/9/20,11,H,Fox Sparrow Trl,10:54,21.09,3.16,pre-tip,9,Close
+10/9/20,15,A,13010 Ridgeline Blvd,10:54,15.67,3.31,pre-tip,9,Close
+10/9/20,11,H,Black Cherry Dr,11:39,19.72,5,pre-tip,9,Close
+10/9/20,MAIN,A,2000 Lakeline,NA,20.52,4.48,cash order,9,Close
+10/9/20,15,A,12538 Ridgeline Blvd,12:47,28.11,3,pre-tip,9,Close
+10/10/20,2,H,Rachel Rdg,NA,45.97,6.9,pre-tip,3,Rush
+10/10/20,14,A,12600 Avery Ranch,6:08,22.69,4.54,pre-tip,3,Rush
+10/10/20,MAIN,A,2801 Lakeline,6:27,22.69,4.54,pre-tip,3,Rush
+10/10/20,MAIN,A,2201 Lakeline ,6:54,12.16,4,pre-tip,3,Rush
+10/10/20,7,H,Feathergrass Ct,7:13,32.43,4.86,pre-tip,3,Rush
+10/10/20,3,H,Checker Dr,7:30,36.5,5.5,pre-tip,3,Rush
+10/10/20,MAIN,A,2801 Lakeline,7:46,20.55,3.08,pre-tip,3,Rush
+10/10/20,13,H,Valley Pike Rd,8:03,18.38,1.84,pre-tip,3,Rush
+10/10/20,MAIN,A,2850 Lakeline,8:33,17.83,2.67,pre-tip,3,Rush
+10/11/20,16,H,Harvest Bend Ln,5:03,22.7,2,write in,3,Rush
+10/11/20,2,H,Rachel Rdg,5:19,35.69,3.57,pre-tip,3,Rush
+10/11/20,MAIN,A,2214 Lakeline,5:45,25.95,3.89,pre-tip,3,Rush
+10/11/20,MAIN,A,2000 Lakeline,6:00,19.98,2,pre-tip,3,Rush
+10/11/20,12,H,Portwood Bend Cv,6:17,24.87,4.97,pre-tip,3,Rush
+10/11/20,9,H,Mackenzie Ln,6:34,23.78,2.28,pre-tip,3,Rush
+10/11/20,15,A,Altis,6:53,34.87,6.97,pre-tip,3,Rush
+10/11/20,14,A,12600 Avery Ranch,7:13,22.71,2.27,pre-tip,3,Rush
+10/11/20,16,H,Farrington Ct,7:47,3.24,4,pre-tip,3,Rush
+10/15/20,7,H,Hidden Hills Ln,5:28,15.67,3.13,pre-tip,4.75,Late
+10/15/20,3,H,Melekhin Bnd,5:59,12.97,2,write in,4.75,Late
+10/15/20,NA,A,1600 Lakeline,6:12,16.21,2.43,pre-tip,4.75,Late
+10/15/20,11,H,Heppner Dr,6:23,4.86,2,pre-tip,4.75,Late
+10/15/20,7,H,Crystal Hill Dr,6:37,29.73,5.95,pre-tip,4.75,Late
+10/15/20,MAIN,A,2850 Lakeline,6:54,32.03,6.41,pre-tip,4.75,Late
+10/15/20,4,H,Bent Bow Cv,7:15,17.3,10,write in,4.75,Late
+10/15/20,NA,A,11908 Anderson Mill ,7:23,22.69,4,write in,4.75,Late
+10/15/20,6,H,Yalding Dr,7:48,3.35,5,pre-tip,4.75,Late
+10/15/20,MAIN,A,2304 Lakeline,8:03,21.35,3.2,pre-tip,4.75,Late
+10/15/20,11,H,Mimosa Pass,8:16,21.61,3.24,pre-tip,4.75,Late
+10/15/20,14,H,Orleans Dr,NA,3.24,1.76,cash order,4.75,Late
+10/15/20,10,H,Cortez,9:18,25.95,3.89,pre-tip,4.75,Late
+10/16/20,4,H,Azalea Dr,5:48,22.16,3.32,pre-tip,4.25,Late
+10/16/20,4,H,Bald Cypress Cv,5:48,16.21,3.24,pre-tip,4.25,Late
+10/16/20,4,H,Autumn Fire Dr,6:04,19.72,7,pre-tip,4.25,Late
+10/16/20,3,H,Lady Day Cv,6:15,24.87,4.97,pre-tip,4.25,Late
+10/16/20,11,H,Oakwood Glen Dr,6:34,49.64,9.93,pre-tip,4.25,Late
+10/16/20,11,H,Buckeye Trl,6:44,31.35,3.13,pre-tip,4.25,Late
+10/16/20,1,H,Gaspar Bnd,6:54,30.26,4.54,pre-tip,4.25,Late
+10/16/20,MAIN,A,2000 Lakeline,7:08,17.29,2.59,pre-tip,4.25,Late
+10/16/20,2,H,Michael Robert Way,7:22,24.31,3.65,pre-tip,4.25,Late
+10/16/20,14,A,12600 Avery Ranch,7:40,23.78,4.76,pre-tip,4.25,Late
+10/16/20,5,H,Dartford Bnd,8:04,35.15,5.27,pre-tip,4.25,Late
+10/16/20,MAIN,A,2201 Lakeline ,8:20,19.98,4,pre-tip,4.25,Late
+10/16/20,11,H,Whippoorwill Dr,8:54,16.23,3.77,pre-tip,4.25,Late
+10/16/20,MAIN,A,Bell Blvd,NA,0,16,write in,4.25,Late
+10/16/20,7,A,Grand Oaks Loop,9:44,19.46,3.89,pre-tip,4.25,Late
+10/18/20,16,A,1900 Little Elm Trl,5:24,31.36,2,pre-tip,1.75,Rush
+10/18/20,4,H,Bent Bow Dr,5:39,27.56,2.76,pre-tip,1.75,Rush
+10/18/20,MAIN,A,2000 Lakeline,NA,17.84,2.16,cash order,1.75,Rush
+10/18/20,9,H,Eleanor Way,6:19,49.21,7.38,pre-tip,1.75,Rush
+10/18/20,11,H,Buckeye Trl,6:33,20,4,pre-tip,1.75,Rush
+10/22/20,2,H,Chalk Ln,4:59,16.21,3.24,pre-tip,4.75,Late
+10/22/20,4,H,Kerr Trl,5:18,75,11.25,pre-tip,4.75,Late
+10/22/20,5,H,Zambia Dr,5:42,35.69,7.14,pre-tip,4.75,Late
+10/22/20,2,H,Michael Robert Way,5:56,23.69,4.74,pre-tip,4.75,Late
+10/22/20,4,H,Coral Dr,6:06,16.21,3.24,pre-tip,4.75,Late
+10/22/20,4,H,Coral Dr,6:17,22.7,5,pre-tip,4.75,Late
+10/22/20,11,H,Oakwood Glen Dr,6:31,30.81,6.16,pre-tip,4.75,Late
+10/22/20,14,A,12600 Avery Ranch,6:43,36.22,3.62,pre-tip,4.75,Late
+10/22/20,MAIN,A,2000 Lakeline,7:02,21.08,3.16,pre-tip,4.75,Late
+10/22/20,MAIN,A,2850 Lakeline,7:02,23.69,2.37,pre-tip,4.75,Late
+10/22/20,4,H,Simbrah Dr,7:23,42.73,5,pre-tip,4.75,Late
+10/22/20,11,H,Glenwood Trl,7:42,50.28,7.54,pre-tip,4.75,Late
+10/22/20,15,A,Altis,8:03,22.69,3,write in,4.75,Late
+10/22/20,MAIN,A,2101 Lakeline,8:03,11.34,2,pre-tip,4.75,Late
+10/22/20,MAIN,A,2201 Lakeline ,8:38,5.39,4,pre-tip,4.75,Late
+10/22/20,1,H,Nelson Ranch Loop,8:55,23.79,2.38,pre-tip,4.75,Late
+10/22/20,MAIN,A,2801 Lakeline,9:28,34.6,10,pre-tip,4.75,Late
+10/23/20,14,A,12600 Avery Ranch,5:42,23.77,3.57,pre-tip,5.25,Rush
+10/23/20,14,A,12600 Avery Ranch,5:42,22.7,5.3,pre-tip,5.25,Rush
+10/23/20,4,H,Catamaran Cv,6:04,19.19,3.84,pre-tip,5.25,Rush
+10/23/20,MAIN,A,2000 Lakeline,6:13,19.98,4,pre-tip,5.25,Rush
+10/23/20,5,H,Guara Dr,NA,29.19,10.81,cash order,5.25,Rush
+10/23/20,13,H,Valley Pike Rd,7:01,20.52,4,pre-tip,5.25,Rush
+10/23/20,MAIN,A,2829 Lakeline,7:25,40,0,write in,5.25,Rush
+10/23/20,MAIN,A,2201 Lakeline ,7:50,19.45,2.92,pre-tip,5.25,Rush
+10/23/20,MAIN,A,2101 Lakeline,7:50,36.51,3.65,pre-tip,5.25,Rush
+10/23/20,MAIN,A,2000 Lakeline,7:50,63.27,6.42,pre-tip,5.25,Rush
+10/23/20,11,H,Aster Pass,8:22,45.43,8,pre-tip,5.25,Rush
+10/23/20,16,H,Oakland Dr,8:41,55.16,5,write in,5.25,Rush
+10/23/20,12,H,Portwood Bend Cv,9:05,12.98,4,pre-tip,5.25,Rush
+10/23/20,6,H,Izoro Bnd,9:35,21.34,2.13,pre-tip,5.25,Rush
+10/23/20,15,A,Altis,10:08,22.71,4.54,pre-tip,5.25,Rush
+10/23/20,15,A,13010 Ridgeline Blvd,10:08,23.5,5,pre-tip,5.25,Rush
+10/23/20,3,H,Mancini Cv,10:55,4.86,2,pre-tip,5.25,Rush
+10/25/20,5,H,Mexican Hat Dr,4:37,18.84,1.88,pre-tip,1.25,Rush
+10/25/20,9,H,Lobelia Dr,4:55,39,4,pre-tip,1.25,Rush
+10/25/20,MAIN,A,2101 Lakeline,5:09,32.9,4.93,pre-tip,1.25,Rush
+10/29/20,9,H,Todd Ln,5:18,30.8,5.51,pre-tip,3,Rush
+10/29/20,9,H,Stenson Dr,5:38,4,3,pre-tip,3,Rush
+10/29/20,NA,A,1600 Lakeline,5:55,33.51,5.03,pre-tip,3,Rush
+10/29/20,7,H,Feathergrass Ct,6:22,17.83,3.57,pre-tip,3,Rush
+10/29/20,MAIN,A,2000 Lakeline,6:49,30.8,10,write in,3,Rush
+10/29/20,MAIN,A,2000 Lakeline,6:49,29.17,6,pre-tip,3,Rush
+10/29/20,11,H,Spiderlily Vw,7:27,30.28,5,write in,3,Rush
+10/30/20,6,H,Lothian Dr ,5:52,16.21,2.43,pre-tip,4.5,Late
+10/30/20,4,H,Sienna Dr,6:06,25.94,5.19,pre-tip,4.5,Late
+10/30/20,3,H,Lysenko Dr,6:35,31.08,5,pre-tip,4.5,Late
+10/30/20,4,H,Azalea Dr,6:56,14.59,2,pre-tip,4.5,Late
+10/30/20,MAIN,A,2850 Lakeline,7:11,32.15,4.82,pre-tip,4.5,Late
+10/30/20,MAIN,A,2801 Lakeline,7:11,17.3,1.73,pre-tip,4.5,Late
+10/30/20,1,H,Erica Kaitlin Ln,7:34,19.45,3.89,pre-tip,4.5,Late
+10/30/20,14,H,Dior Dr,7:51,25.94,3.89,pre-tip,4.5,Late
+10/30/20,1,H,Erica Kaitlin Ln,8:12,38.39,3.84,pre-tip,4.5,Late
+10/30/20,MAIN,A,350 Cypress Creek,8:32,23.78,2.38,pre-tip,4.5,Late
+10/30/20,1,H,Nelson Ranch Loop,8:54,35.06,3.51,pre-tip,4.5,Late
+10/30/20,MAIN,A,2829 Lakeline,9:15,23.5,4.7,pre-tip,4.5,Late
+10/30/20,16,A,1900 Little Elm Trl,NA,22.17,5.83,pre-tip,4.5,Late
+10/31/20,3,H,Brubeck Bnd,4:45,16.22,2,pre-tip,8.5,Close
+10/31/20,14,A,12600 Avery Ranch,4:59,19.45,2.92,pre-tip,8.5,Close
+10/31/20,MAIN,A,2829 Lakeline,5:19,23.79,4.76,pre-tip,8.5,Close
+10/31/20,6,H,Bonnyrigg Ct,5:46,29.19,6,pre-tip,8.5,Close
+10/31/20,MAIN,A,2801 Lakeline,6:02,20.45,2,pre-tip,8.5,Close
+10/31/20,2,H,Pagedale Dr,6:26,40.01,6,pre-tip,8.5,Close
+10/31/20,3,H,Lysenko Dr,6:48,44.86,6.73,pre-tip,8.5,Close
+10/31/20,14,H,Riveria Dr,7:18,37.85,5,write in,8.5,Close
+10/31/20,11,H,Nightingale Dr,7:34,20.53,9.11,pre-tip,8.5,Close
+10/31/20,MAIN,A,2201 Lakeline ,7:52,38.95,5.84,pre-tip,8.5,Close
+10/31/20,NA,H,Wide Antler Cv,8:13,31.82,3,write in,8.5,Close
+10/31/20,5,H,Quiet Moon Trl,8:28,29.19,4.38,pre-tip,8.5,Close
+10/31/20,8,H,Corabella Pl,8:38,22.7,4.54,pre-tip,8.5,Close
+10/31/20,1,H,Buttercup Creek Blvd,8:50,25.32,0,write in,8.5,Close
+10/31/20,13,H,Valley Pike Rd,9:24,8.1,1.62,pre-tip,8.5,Close
+10/31/20,1,H,Nelson Ranch Loop,10:07,38.53,7.71,pre-tip,8.5,Close
+10/31/20,9,H,Courtney Ln,10:28,3.24,8,pre-tip,8.5,Close
+10/31/20,15,A,Altis,10:53,22.09,3,pre-tip,8.5,Close
+10/31/20,NA,A,11908 Anderson Mill ,11:43,18.38,3.68,pre-tip,8.5,Close
+10/31/20,11,H,Lantana Ln,11:43,22.43,0,write in,8.5,Close
+10/31/20,13,H,Dandridge Dr,NA,16.21,3.79,cash order,8.5,Close
+11/1/20,2,H,Rachel Rdg,4:36,30.18,6.04,pre-tip,3,Rush
+11/1/20,MAIN,A,2850 Lakeline,NA,35.65,6.35,cash order,3,Rush
+11/1/20,6,H,Tivoli Dr,5:16,33.53,5,write in,3,Rush
+11/1/20,15,A,13010 Ridgeline Blvd,5:33,23.69,3.55,pre-tip,3,Rush
+11/1/20,13,H,Valley Pike Rd,5:50,20.25,3.04,pre-tip,3,Rush
+11/1/20,MAIN,A,2000 Lakeline,6:07,17.3,3,write in,3,Rush
+11/1/20,11,H,Red Bird Dr,6:24,17.21,5,pre-tip,3,Rush
+11/1/20,8,H,Orsobello Pl,6:36,22.7,3.4,pre-tip,3,Rush
+11/1/20,NA,A,11908 Anderson Mill ,6:50,21.6,4.32,pre-tip,3,Rush
+11/1/20,8,H,Fiorellino Pl,7:18,17.3,2.59,pre-tip,3,Rush
+11/1/20,8,H,Argento Pl,7:18,47.59,9.52,pre-tip,3,Rush
+11/5/20,5,H,Bindon Dr.,4:34,18.11,2,write in,2.5,Rush
+11/5/20,10,H,Primwood Path,4:51,17.22,3.44,pre-tip,2.5,Rush
+11/5/20,12,H,Brighton Bend Ln,5:03,20.53,4.11,pre-tip,2.5,Rush
+11/5/20,MAIN,A,2304 Lakeline,5:20,27.3,5.46,pre-tip,2.5,Rush
+11/5/20,8,H,Wanakah Ridge Cv,5:37,19.92,3.98,pre-tip,2.5,Rush
+11/5/20,2,H,Oliver Loving Cv,5:52,26.5,4,pre-tip,2.5,Rush
+11/5/20,2,H,Feather Nest Dr,5:52,26,2.6,pre-tip,2.5,Rush
+11/5/20,12,H,Buttercup Creek Blvd,6:07,61.37,9.21,pre-tip,2.5,Rush
+11/5/20,12,A,Old Mill Rd,6:22,18.65,3,pre-tip,2.5,Rush
+11/5/20,7,H,Feathergrass Ct,6:35,36.22,5.43,pre-tip,2.5,Rush
+11/8/20,11,H,Mesquite Rd,4:23,51.38,7.71,pre-tip,5,Late
+11/8/20,2,H,Barrilla St,4:35,58.66,5.87,pre-tip,5,Late
+11/8/20,16,H,Liberty Oaks Blvd,4:46,37.84,3,pre-tip,5,Late
+11/8/20,MAIN,A,350 Cypress Creek,5:14,23.78,3.57,pre-tip,5,Late
+11/8/20,6,H,Mingus Dr.,5:30,18.91,2.84,pre-tip,5,Late
+11/8/20,16,A,1400 Little Elm Trl,5:44,36.77,5.52,pre-tip,5,Late
+11/8/20,MAIN,A,2850 Lakeline,6:04,19.46,3.5,pre-tip,5,Late
+11/8/20,7,A,2930 Grand Oaks Loop,6:22,30.74,6,write in,5,Late
+11/8/20,NA,A,1600 Lakeline,6:54,24.88,2.49,pre-tip,5,Late
+11/8/20,7,H,Grand Oaks Loop,7:07,18.21,3.64,pre-tip,5,Late
+11/8/20,4,H,Edelweiss Dr,7:43,13.42,3,pre-tip,5,Late
+11/8/20,MAIN,A,2000 Lakeline,7:52,25.96,2.6,pre-tip,5,Late
+11/8/20,11,H,Honeyweed St,8:36,26.94,4.04,pre-tip,5,Late
+11/12/20,NA,A,1600 Lakeline,NA,21.08,0.17,cash order,9,Close
+11/12/20,MAIN,A,2829 Lakeline,4:44,28.36,4.35,pre-tip,9,Close
+11/12/20,4,H,Rhapsody Ridge Dr,5:07,42,8.4,pre-tip,9,Close
+11/12/20,8,H,Argento Pl,5:29,12.89,4,pre-tip,9,Close
+11/12/20,NA,H,Riveria Dr,5:44,20.25,3.04,pre-tip,9,Close
+11/12/20,15,A,Altis,6:05,39.47,3.95,pre-tip,9,Close
+11/12/20,9,H,Todd Ln,6:24,22.71,4,pre-tip,9,Close
+11/12/20,11,H,Aster Pass,6:24,56.24,11.25,pre-tip,9,Close
+11/12/20,16,A,1900 Little Elm Trl,6:37,25.4,5.08,pre-tip,9,Close
+11/12/20,14,A,12600 Avery Ranch,6:53,17.29,3.46,pre-tip,9,Close
+11/12/20,MAIN,A,2304 Lakeline,7:12,12.44,1.87,pre-tip,9,Close
+11/12/20,2,H,Pagedale Dr,7:51,33.44,6.69,pre-tip,9,Close
+11/12/20,5,H,Beeleigh Ct,8:18,22.7,4.54,pre-tip,9,Close
+11/12/20,MAIN,A,350 Cypress Creek,8:37,28.12,5,pre-tip,9,Close
+11/12/20,12,H,Woodridge Ln,9:13,22.69,1,pre-tip,9,Close
+11/12/20,1,H,Catherine Dr,9:59,16.21,3.24,pre-tip,9,Close
+11/12/20,6,H,Heathmount Dr,9:31,20,0,write in,9,Close
+11/12/20,15,A,12638 Ridgeline Blvd,10:33,17.83,2,write in,9,Close
+11/12/20,MAIN,A,2850 Lakeline,10:52,20,4,pre-tip,9,Close
+11/12/20,NA,A,11908 Anderson Mill ,11:25,25.68,5.14,pre-tip,9,Close
+11/12/20,MAIN,A,3405 El Salido Pkwy,11:25,17.3,0,write in,9,Close
+11/13/20,5,H,Tosca Cv,4:50,52.44,10.49,pre-tip,8.5,Close
+11/13/20,5,H,Tattler Dr,5:16,16.21,3.79,pre-tip,8.5,Close
+11/13/20,12,H,Brighton Bend Ln,5:29,16.21,2.43,pre-tip,8.5,Close
+11/13/20,4,H,Azalea Dr,5:34,16.21,2.43,pre-tip,8.5,Close
+11/13/20,NA,H,Plum Creek Rd,5:52,22.7,4.54,pre-tip,8.5,Close
+11/13/20,1,H,Erica Kaitlin Ln,6:12,66.14,9.92,pre-tip,8.5,Close
+11/13/20,6,H,Lothian Dr ,7:12,31.82,6.36,pre-tip,8.5,Close
+11/13/20,6,H,Lothian Dr ,6:30,18.84,2.83,pre-tip,8.5,Close
+11/13/20,9,H,Old Mill Rd,6:50,49.49,4.95,pre-tip,8.5,Close
+11/13/20,NA,A,1600 Lakeline,7:00,24.31,3.65,pre-tip,8.5,Close
+11/13/20,NA,A,11908 Anderson Mill ,7:41,16.21,1.79,pre-tip,8.5,Close
+11/13/20,7,H,Grand Oaks Loop,8:03,21.08,5,pre-tip,8.5,Close
+11/13/20,MAIN,A,2000 Lakeline,8:17,16.21,3.24,pre-tip,8.5,Close
+11/13/20,6,H,Mingus Dr.,8:35,26,5,pre-tip,8.5,Close
+11/13/20,11,H,Little Elm Trl.,9:06,18.91,3.78,pre-tip,8.5,Close
+11/13/20,NA,A,1600 Lakeline,9:32,25.93,2,pre-tip,8.5,Close
+11/13/20,3,H,Mancini Cv,9:44,17.3,3.46,pre-tip,8.5,Close
+11/13/20,NA,A,Home2Suites,11:32,50.82,7.62,pre-tip,8.5,Close
+11/13/20,MAIN,A,2000 Lakeline,11:32,16.21,2,write in,8.5,Close
+11/13/20,MAIN,A,32018 El Salido,12:53,27.83,2.78,pre-tip,8.5,Close
+11/14/20,11,H,Glendwood Trl.,4:26,47.59,4.76,pre-tip,8.75,Close
+11/14/20,8,H,Corabella Pl,4:38,36.74,8,pre-tip,8.75,Close
+11/14/20,4,H,Somerset Canyon Ln,5:06,27.49,4.12,pre-tip,8.75,Close
+11/14/20,1,H,Whitewing Dr,5:35,17.84,2.6,pre-tip,8.75,Close
+11/14/20,3,H,Rowley Dr.,5:52,16.22,3.24,pre-tip,8.75,Close
+11/14/20,3,H,Armatrading Dr.,6:07,47.84,9.57,pre-tip,8.75,Close
+11/14/20,11,H,Lauretta Wood Dr.,6:21,16.21,0,write in,8.75,Close
+11/14/20,5,H,Skip Tyler Dr.,6:41,17.84,2.68,pre-tip,8.75,Close
+11/14/20,2,H,Chinati St,7:00,44.33,3,pre-tip,8.75,Close
+11/14/20,13,H,Big Meadow Dr.,7:26,51.38,7.71,pre-tip,8.75,Close
+11/14/20,9,H,Dayflower Trce,7:46,22.69,4.54,pre-tip,8.75,Close
+11/14/20,14,H,Cannes Dr,7:59,16.21,2.43,pre-tip,8.75,Close
+11/14/20,16,A,1900 Little Elm Trl.,8:14,16.21,1.62,pre-tip,8.75,Close
+11/14/20,15,A,13010 Ridgeline Blvd,8:14,16.21,4,write in,8.75,Close
+11/14/20,MAIN,A,350 Cypress Creek,9:06,24.87,2.49,pre-tip,8.75,Close
+11/14/20,5,H,Guara Dr,9:23,17.02,3.4,pre-tip,8.75,Close
+11/14/20,16,H,Avondale Dr,9:42,32.43,3.24,pre-tip,8.75,Close
+11/14/20,15,A,13010 Ridgeline Blvd,10:08,25.01,0,write in,8.75,Close
+11/14/20,11,H,Old Mill Rd,10:30,27.22,5,pre-tip,8.75,Close
+11/14/20,MAIN,A,2201 Lakeline ,10:30,24.77,2.48,pre-tip,8.75,Close
+11/14/20,9,H,Sandra Cv,10:49,38.05,12:00,pre-tip,8.75,Close
+11/14/20,13,H,Glen Burnie Dr.,11:04,13.78,2.76,pre-tip,8.75,Close
+11/14/20,16,A,1401 Little Elm Trl.,11:22,19.46,2.92,pre-tip,8.75,Close
+11/14/20,4,H,Drifting Leaf Dr. ,11:43,21.08,0,write in,8.75,Close
+11/14/20,14,H,Orleans Dr,11:51,25.94,2.59,pre-tip,8.75,Close
+11/14/20,15,A,Altis ,12:31,24.33,5,write in,8.75,Close
+11/15/20,14,A,12600 Avery Ranch,5:24,24.85,4.97,pre-tip,3.5,Rush
+11/15/20,4,H,Nandina Dr.,5:47,37.31,6,pre-tip,3.5,Rush
+11/15/20,14,H,Monte Carlo Dr,6:07,19.45,3.89,pre-tip,3.5,Rush
+11/15/20,NA,H,Riveria Dr,NA,27.3,4.7,cash order,3.5,Rush
+11/15/20,5,H,Mexican Hat Dr,6:44,25.12,2,pre-tip,3.5,Rush
+11/15/20,16,A,1401 Little Elm Trl.,6:54,21.62,2.16,pre-tip,3.5,Rush
+11/15/20,11,H,Little Elm Trl.,NA,28.1,6.9,cash order,3.5,Rush
+11/15/20,13,H,Valley Pike Rd,NA,29.75,10.25,cash order,3.5,Rush
+11/15/20,2,H,Chalk Ln,7:49,53.01,7.95,pre-tip,3.5,Rush
+11/15/20,7,H,Grand Oaks Loop,8:04,31.74,6.35,pre-tip,3.5,Rush

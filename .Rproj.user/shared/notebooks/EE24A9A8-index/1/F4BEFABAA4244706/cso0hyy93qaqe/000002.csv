@@ -1,7 +1,8 @@
 "0","class Oligo_Reverse:
     
-    def __init__(self, sq):
+    def __init__(self, sq, reverse_sq):
         self.sq= sq
+        self.reverse_sq= reverse_sq
         
     
     #first, reverse sequence
@@ -13,7 +14,7 @@
 
     #Then generate the complementary sequence
     def reverse_oligo(st):
-        reverse_sq=""""
+        self.reverse_sq=""""
         for bp in st:
             if bp == ""A"":
               reverse_sq + ""T""
@@ -27,21 +28,19 @@
     
     def __str__(self):
         return  ""forward oligo sequence is"", (self.sq) +\
-                ""reverse oligo sequence is"", reverse_sq
+                ""reverse oligo sequence is"", (self.reverse_sq)
 
 
-#now let's use our function!
+#now let's use our class!
     
-oligo1= Oligo_Reverse(""GGAAATGATGAATTGGGAG"") 
+oligo1= Oligo_Reverse(""GGAAATGATGAATTGGGAG"","" "") 
 print(oligo1)
     
 seq=""GGAAATGATGAATTGGGAG""
 reverse_oligo(sq)
   "
 "2","Traceback (most recent call last):
-  File ""/var/folders/g9/24s121tj4kzfl432lf38g8rr0000gn/T/RtmpatiWUD/chunk-code-17c71ab1116d.txt"", line 36, in <module>
+  File ""/var/folders/g9/24s121tj4kzfl432lf38g8rr0000gn/T/RtmpatiWUD/chunk-code-17c71921dd06.txt"", line 37, in <module>
     print(oligo1)
-  File ""/var/folders/g9/24s121tj4kzfl432lf38g8rr0000gn/T/RtmpatiWUD/chunk-code-17c71ab1116d.txt"", line 30, in __str__
-    ""reverse oligo sequence is"", reverse_sq
-NameError: global name 'reverse_sq' is not defined
+TypeError: __str__ returned non-string (type tuple)
 "

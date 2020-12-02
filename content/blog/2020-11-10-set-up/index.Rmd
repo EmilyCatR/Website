@@ -29,9 +29,9 @@ print(oligos)
 
 
 ```
-
-Now we have found the several potential oligo sequences to 
-
+<br>
+Now we have found the several potential oligo sequences to insert into our plasmid! Let's create a class that contains functions to help create the reverse oligo!
+<br>
 ```{python}
 class Oligo_Reverse:
     
