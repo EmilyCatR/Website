@@ -11,19 +11,19 @@ title: About me
 
 
 <center>
-#About Me page!
+#About Me!
 <br>
 
 ![](/./About_me_files/grad_photo.png)
 
 
-</center>
 
 <br>
 
 
 ###Hi there! My name is Emily Reed and I was born and raised in Austin, Texas. I enjoy hiking, running with my dogs, reading, baking and hanging out with the fam! I am about to graduate from the University of Texas at Austin with a BS in Genetics and a certificate in Forensic Sciences.
 
-![Hiking in Acadia National Park](/Users/emilyreed/Desktop/Website/static/img/hike.jpg) ![Texas Adventure Time Tabling](/Users/emilyreed/Desktop/Website/static/img/TAT.jpg)
+</center>
+<br>
 
-check out our instagram page! :
+![Hiking in Acadia National Park](/./About_me_files/hike.jpg){width=50% height=50%} ![Texas Adventure Time Tabling](/./About_me_files/TAT.JPG){width=50% height=50%} 

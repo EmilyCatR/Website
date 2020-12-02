@@ -26,17 +26,19 @@ oligos = re.findall(r"\w{19}.GG", cds)
 print(oligos)
 
 
-
-
 ```
 <br>
+
 Now we have found the several potential oligo sequences to insert into our plasmid! Let's create a class that contains functions to help create the reverse oligo!
+
 <br>
 ```{python}
+
 class Oligo_Reverse:
     
     def __init__(self, sq):
         self.sq= sq
+        
         
     
     #first, reverse sequence
@@ -65,9 +67,9 @@ class Oligo_Reverse:
                 "reverse oligo sequence is", reverse_sq
 
 
-#now let's use our function!
+#now let's use our class!
     
-oligo1= Oligo_Reverse("GGAAATGATGAATTGGGAG") 
+oligo1= Oligo_Reverse("GGAAATGATGAATTGGGAG"," ") 
 print(oligo1)
     
 seq="GGAAATGATGAATTGGGAG"
