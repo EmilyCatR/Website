@@ -1,0 +1,487 @@
+---
+title: "The 2009-2010 H1N1 Swine Flu"
+author: "Emily Reed"
+date: "9/30/2020"
+output:
+  html_document:
+    theme: journal
+    toc: true
+    toc_float:
+      collapsed: false
+      
+      
+---
+
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<hr />
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p><br></p>
+<center>
+<img src="https://media.giphy.com/media/dVuyBgq2z5gVBkFtDc/giphy.gif" alt="Source:media.giphy" />
+</center>
+<p><br></p>
+<p>I know what you're thinking: &quot;Oh no, not another thing about coronavirus ugh.&quot; But I'm happy to tell you that we're looking at COVID's RNA virus sibling, good 'ol Orthomyxoviridae Influenza. I've done quite a few research papers in college about the flu, and while we all may be desensitized the wrath of the flu, or shall I say, &quot;coronavirus' shadow&quot;, I find the common ailment facinating. I discovered the CDC has a whole archive of flu vaccination statistics from the past 10 years, and that's where I discovered the 'vaccinations' dataset, described below. While you think it may be easy to get the CDC to cough up case numbers per state in the year of the great swine flu (2009) this is not the case (puns intended). I am not proud of it, but the 'flu_cases' data set came from Wikipedia. Unfortunately, both the fact that the validity of these case numbers may be compromised, and the fact that the data is raw number of cases rather than a rate (divided by that state's population during the flu season) has made the numbers, and therefore predictions somewhat precarious, I still predicted that states with the highest number of vaccinations would have the lowest number of cases, hospitalizations, and deaths. So please, peruse the wonderful stats I have discovered and displayed through the power of data science!</p>
+<p><br></p>
+<p>This data is about flu cases/hospitalizations/deaths per state and percent of people who recieved the flu vaccination 18+ years in 2009-2010 Swine Flu Epidemic.</p>
+<pre class="r"><code>flu_cases &lt;- read.csv(&quot;Flu_cases.csv&quot;)
+vaccinations &lt;- read.csv(&quot;Vaccinations.csv&quot;)</code></pre>
+<p><br> Flu cases has 56 observations (1 per state, plus a few territories). &quot;Cases&quot;, &quot;hospitalizations&quot;, and &quot;deaths&quot; refers to the number of cases, hospital visits, and death due to influenza reported in that state for the 2009-2010 flu season. This data is NOT separated by age group. <br></p>
+<pre class="r"><code># flu cases table turning cases and
+# hospitalizations into numeric values for later
+# calculations
+flu_cases1 &lt;- flu_cases %&gt;% mutate_at(&quot;Hospitalizations&quot;, 
+    as.numeric)
+glimpse(flu_cases1)</code></pre>
+<pre><code>## Rows: 56
+## Columns: 4
+## $ State            &lt;chr&gt; &quot;Alabama&quot;, &quot;Alaska&quot;, &quot;Arizona&quot;, &quot;Arkansas&quot;, &quot;Califor…
+## $ cases            &lt;dbl&gt; 2453, 1563, 8726, 154, 10545, 1321, 5491, 381, 54, 3…
+## $ Hospitalizations &lt;dbl&gt; NA, 18, NA, NA, NA, 578, 766, NA, NA, NA, 860, NA, 3…
+## $ Deaths           &lt;int&gt; 19, 13, 152, 32, 657, 70, 35, 7, 1, 230, 81, 13, 23,…</code></pre>
+<p><br> Vaccinations is a dataset with 51 observations (one per state, plus District of Colubmbia). &quot;Perc_vaccinated&quot; refers to the percentage of each age group vaccinated in each state in the 2009-2010 flu season. There are three age groups: less than 6 months, 6 months to 17 years, and 18 years old and up. <br></p>
+<pre class="r"><code># flu vaccinations table
+glimpse(vaccinations)</code></pre>
+<pre><code>## Rows: 51
+## Columns: 4
+## $ Names                           &lt;chr&gt; &quot;Alabama&quot;, &quot;Alaska&quot;, &quot;Arizona&quot;, &quot;Arka…
+## $ perc_vaccinated.less6months     &lt;dbl&gt; 45.8, 45.1, 45.9, 55.2, 45.4, 49.7, 5…
+## $ perc_vaccinated.6months_17years &lt;dbl&gt; 53.2, 51.3, 53.1, 66.0, 53.3, 55.8, 6…
+## $ perc_vaccinated.18years_up      &lt;dbl&gt; 43.0, 42.9, 43.6, 49.4, 42.3, 47.8, 4…</code></pre>
+<hr />
+</div>
+<div id="tidy-data" class="section level2">
+<h2>Tidy Data</h2>
+<p><br> Vaccinations dataset needs to be 'tidy'ed!</p>
+<pre class="r"><code>vaccinations2 &lt;- vaccinations %&gt;% 
+  pivot_longer(2:4, names_to=&quot;age_group&quot;,values_to=&quot;percentage_vaccinated&quot;) %&gt;% #pivoting to condense all perc_vaccinated rows
+  separate(&quot;age_group&quot;, into=c(&quot;percent&quot;, &quot;age_group&quot;), sep=&quot;\\.&quot;, convert=T ) %&gt;% #separating perc_vaccinated.agegroup into age group and percent
+  select(-percent) %&gt;% rename(&quot;State&quot;=&quot;Names&quot;) #getting rid of pointless row &quot;percent&quot; and renaming &quot;name&quot; to &quot;state&quot; for joining and readability purposes
+
+glimpse(vaccinations2)</code></pre>
+<pre><code>## Rows: 153
+## Columns: 3
+## $ State                 &lt;chr&gt; &quot;Alabama&quot;, &quot;Alabama&quot;, &quot;Alabama&quot;, &quot;Alaska&quot;, &quot;Ala…
+## $ age_group             &lt;chr&gt; &quot;less6months&quot;, &quot;6months_17years&quot;, &quot;18years_up&quot;,…
+## $ percentage_vaccinated &lt;dbl&gt; 45.8, 53.2, 43.0, 45.1, 51.3, 42.9, 45.9, 53.1,…</code></pre>
+<pre class="r"><code># Lets join the data!
+cases_vaccinations &lt;- inner_join(flu_cases1, vaccinations2, 
+    by = &quot;State&quot;, convert = T)
+glimpse(cases_vaccinations)</code></pre>
+<pre><code>## Rows: 150
+## Columns: 6
+## $ State                 &lt;chr&gt; &quot;Alabama&quot;, &quot;Alabama&quot;, &quot;Alabama&quot;, &quot;Alaska&quot;, &quot;Ala…
+## $ cases                 &lt;dbl&gt; 2453, 2453, 2453, 1563, 1563, 1563, 8726, 8726,…
+## $ Hospitalizations      &lt;dbl&gt; NA, NA, NA, 18, 18, 18, NA, NA, NA, NA, NA, NA,…
+## $ Deaths                &lt;int&gt; 19, 19, 19, 13, 13, 13, 152, 152, 152, 32, 32, …
+## $ age_group             &lt;chr&gt; &quot;less6months&quot;, &quot;6months_17years&quot;, &quot;18years_up&quot;,…
+## $ percentage_vaccinated &lt;dbl&gt; 45.8, 53.2, 43.0, 45.1, 51.3, 42.9, 45.9, 53.1,…</code></pre>
+<p><br> I performed an inner join, which allowed me to take only the State variables found both in flu cases and vaccinations data sets. I used an inner join because I only wanted to look at flu cases and vaccinations in the 50 formal United States, as well as avoid extra observations with a bunch of missing values. Using 'inner_join', I dropped the 'Washington DC' observation from the vaccinations dataset, and all the U.S territories (i.e. American Samoa, Guam, Puerto Rico,Northen Mariana Islands, U.S Virgin Islands ) from the flu_cases data set. The final merged data set, &quot;cases_vaccinations&quot; contains 6 variables of State, cases, hospitalizations, deaths, age_group, percentage_vaccinated, and 150 observations total (1 for each state at a particular age group)</p>
+<hr />
+</div>
+<div id="data-statistics" class="section level2">
+<h2>Data Statistics</h2>
+<p>Finding the average % vaccinated for each state across all age groups.</p>
+<pre class="r"><code># Find mean % of vaccinations across all age groups
+# for each state
+cases_vaccinations &lt;- cases_vaccinations %&gt;% group_by(State) %&gt;% 
+    mutate(average_vaccinations = mean(percentage_vaccinated))
+cases_vaccinations</code></pre>
+<pre><code>## # A tibble: 150 x 7
+## # Groups:   State [50]
+##    State cases Hospitalizations Deaths age_group percentage_vacc…
+##    &lt;chr&gt; &lt;dbl&gt;            &lt;dbl&gt;  &lt;int&gt; &lt;chr&gt;                &lt;dbl&gt;
+##  1 Alab…  2453               NA     19 less6mon…             45.8
+##  2 Alab…  2453               NA     19 6months_…             53.2
+##  3 Alab…  2453               NA     19 18years_…             43  
+##  4 Alas…  1563               18     13 less6mon…             45.1
+##  5 Alas…  1563               18     13 6months_…             51.3
+##  6 Alas…  1563               18     13 18years_…             42.9
+##  7 Ariz…  8726               NA    152 less6mon…             45.9
+##  8 Ariz…  8726               NA    152 6months_…             53.1
+##  9 Ariz…  8726               NA    152 18years_…             43.6
+## 10 Arka…   154               NA     32 less6mon…             55.2
+## # … with 140 more rows, and 1 more variable: average_vaccinations &lt;dbl&gt;</code></pre>
+<pre class="r"><code># find states with average vaccinations % that are
+# above the National average vaccination %
+national_average_vaccinated &lt;- cases_vaccinations %&gt;% 
+    filter(!is.na(average_vaccinations)) %&gt;% summarize(national_avg = mean(average_vaccinations)) %&gt;% 
+    summarize(mean(national_avg))
+national_average_vaccinated</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   `mean(national_avg)`
+##                  &lt;dbl&gt;
+## 1                 51.6</code></pre>
+<pre class="r"><code>cases_vaccinations %&gt;% filter(average_vaccinations &gt; 
+    national_average_vaccinated) %&gt;% select(State, 
+    average_vaccinations) %&gt;% summarize(avg_vaccination_percent = mean(average_vaccinations)) %&gt;% 
+    arrange(desc(avg_vaccination_percent))</code></pre>
+<pre><code>## # A tibble: 21 x 2
+##    State         avg_vaccination_percent
+##    &lt;chr&gt;                           &lt;dbl&gt;
+##  1 Rhode Island                     66.3
+##  2 Hawaii                           64.5
+##  3 Vermont                          62.3
+##  4 Massachusetts                    61.6
+##  5 South Dakota                     61.0
+##  6 Maine                            60.6
+##  7 New Hampshire                    58.9
+##  8 Virginia                         58.2
+##  9 Iowa                             57.9
+## 10 Minnesota                        57.4
+## # … with 11 more rows</code></pre>
+<p><br></p>
+<p>Let's see which states had the most cases of flu. Which states had the fewest percent average vaccinated citizens?</p>
+<pre class="r"><code># Which states had the most cases of flu
+cases_vaccinations %&gt;% group_by(State) %&gt;% summarize(case = mean(cases)) %&gt;% 
+    arrange(desc(case))</code></pre>
+<pre><code>## # A tibble: 50 x 2
+##    State         case
+##    &lt;chr&gt;        &lt;dbl&gt;
+##  1 Pennsylvania 10940
+##  2 California   10545
+##  3 Wisconsin     9579
+##  4 Arizona       8726
+##  5 Texas         6128
+##  6 Nevada        5516
+##  7 Connecticut   5491
+##  8 Florida       3676
+##  9 Illinois      3387
+## 10 New York      2738
+## # … with 40 more rows</code></pre>
+<pre class="r"><code># Which states had the lowest average % vaccinated
+# across all age groups
+cases_vaccinations %&gt;% group_by(State) %&gt;% summarize(avg_vaccination_percent = mean(average_vaccinations)) %&gt;% 
+    arrange(avg_vaccination_percent)</code></pre>
+<pre><code>## # A tibble: 50 x 2
+##    State       avg_vaccination_percent
+##    &lt;chr&gt;                         &lt;dbl&gt;
+##  1 Nevada                         40.2
+##  2 Idaho                          43.7
+##  3 Michigan                       43.7
+##  4 Florida                        43.8
+##  5 Georgia                        43.8
+##  6 Mississippi                    44.3
+##  7 Montana                        44.3
+##  8 Oregon                         46.1
+##  9 Alaska                         46.4
+## 10 Missouri                       46.6
+## # … with 40 more rows</code></pre>
+<pre class="r"><code># Do the states that had the most flu match with
+# the states that had the lowest average %
+# vaccinated? (Nope)
+cases_vaccinations %&gt;% group_by(State) %&gt;% summarize(case_in_state = mean(cases), 
+    avg_vaccination_state = (mean(average_vaccinations))) %&gt;% 
+    arrange(desc(case_in_state), avg_vaccination_state) %&gt;% 
+    select(State, case_in_state, avg_vaccination_state)</code></pre>
+<pre><code>## # A tibble: 50 x 3
+##    State        case_in_state avg_vaccination_state
+##    &lt;chr&gt;                &lt;dbl&gt;                 &lt;dbl&gt;
+##  1 Pennsylvania         10940                  51.8
+##  2 California           10545                  47  
+##  3 Wisconsin             9579                  48.9
+##  4 Arizona               8726                  47.5
+##  5 Texas                 6128                  47.9
+##  6 Nevada                5516                  40.2
+##  7 Connecticut           5491                  53.3
+##  8 Florida               3676                  43.8
+##  9 Illinois              3387                  48.5
+## 10 New York              2738                  50.6
+## # … with 40 more rows</code></pre>
+<p><br></p>
+<p>Computing the mean and sd for national cases, hospitalizations, and deaths.</p>
+<pre class="r"><code># Finding the national average of cases
+national_average_cases &lt;- cases_vaccinations %&gt;% summarize(average_cases_US = mean(cases)) %&gt;% 
+    summarize(average_cases_US = mean(average_cases_US))
+national_average_cases
+
+# Finding the national sd of cases between states
+national_sd_cases &lt;- cases_vaccinations %&gt;% summarize(sd_cases_US = mean(cases)) %&gt;% 
+    summarize(sd_cases = sd(sd_cases_US))
+national_sd_cases
+
+# Finding the national average of hospitalizations
+national_average_hospitalizations &lt;- cases_vaccinations %&gt;% 
+    filter(!is.na(Hospitalizations)) %&gt;% summarize(average_hosp_US = mean(Hospitalizations)) %&gt;% 
+    summarize(average_hosp_US = mean(average_hosp_US))
+national_average_hospitalizations
+
+# Finding the national sd of hospitalizations
+# between states
+national_sd_hospitalizations &lt;- cases_vaccinations %&gt;% 
+    filter(!is.na(Hospitalizations)) %&gt;% summarize(sd_hosp_US = mean(Hospitalizations)) %&gt;% 
+    summarize(sd_hosp_US = sd(sd_hosp_US))
+national_sd_hospitalizations
+
+# Finding the national average of deaths (this data
+# is obviously not very accurate, oop)
+national_average_deaths &lt;- cases_vaccinations %&gt;% filter(!is.na(Deaths)) %&gt;% 
+    summarize(average_deaths_US = mean(Deaths)) %&gt;% 
+    summarize(average_deaths_US = mean(average_deaths_US))
+national_average_deaths
+
+# Finding the national sd of deaths between states
+
+national_sd_deaths &lt;- cases_vaccinations %&gt;% filter(!is.na(Deaths)) %&gt;% 
+    summarize(sd_deaths_US = mean(Deaths)) %&gt;% summarize(sd_deaths_US = sd(sd_deaths_US))
+national_sd_deaths
+
+cases_vaccinations %&gt;% arrange(-Hospitalizations)</code></pre>
+<pre class="r"><code># make a table of all means/sd
+table_mean_sd &lt;- data.frame(national_average_cases, 
+    national_sd_cases, national_average_hospitalizations, 
+    national_sd_hospitalizations, national_average_deaths, 
+    national_sd_deaths)
+table_mean_sd %&gt;% pivot_longer(1:6, names_to = &quot;var&quot;, 
+    values_to = &quot;stat&quot;) %&gt;% separate(var, into = c(&quot;stat_type&quot;, 
+    &quot;vars&quot;)) %&gt;% pivot_wider(names_from = stat_type, 
+    values_from = stat)</code></pre>
+<pre><code>## # A tibble: 3 x 3
+##   vars   average    sd
+##   &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;
+## 1 cases   2264.  2656.
+## 2 hosp     407.   333.
+## 3 deaths    66.6  100.</code></pre>
+<p><br></p>
+<p>Finding the quantile, min, max for all numeric variables.</p>
+<pre class="r"><code>case_quantile &lt;- cases_vaccinations$cases
+cases_quantile &lt;- quantile(case_quantile, c(0.25, 0.5, 
+    0.75))
+
+min_cases &lt;- min(case_quantile)
+max_cases &lt;- max(case_quantile)
+
+percent_vaccinated &lt;- cases_vaccinations$percentage_vaccinated
+vax_quantile &lt;- quantile(percent_vaccinated, c(0.25, 
+    0.5, 0.75), na.rm = T)
+min_vax &lt;- min(percent_vaccinated)
+max_vax &lt;- max(percent_vaccinated)
+
+table_quantile &lt;- data.frame(cases_quantile, min_cases, 
+    max_cases, vax_quantile, min_vax, max_vax)
+
+# showing table of quantile, min and max
+table_quantile %&gt;% as.data.frame %&gt;% rownames_to_column(&quot;quantile&quot;) %&gt;% 
+    pivot_longer(c(cases_quantile, vax_quantile), names_to = &quot;quantile_var&quot;, 
+        values_to = &quot;quantile_number&quot;) %&gt;% separate(quantile_var, 
+    into = c(&quot;quantile_var&quot;, &quot;NA&quot;), sep = &quot;_&quot;, ) %&gt;% 
+    select(-&quot;NA&quot;) %&gt;% group_by(quantile_var) %&gt;% pivot_longer(2:5, 
+    names_to = &quot;min_max&quot;, values_to = &quot;min_max_values&quot;) %&gt;% 
+    separate(min_max, into = c(&quot;min_max&quot;, &quot;type&quot;)) %&gt;% 
+    filter(quantile_var == type) %&gt;% select(-type) %&gt;% 
+    pivot_wider(names_from = quantile, values_from = quantile_number) %&gt;% 
+    pivot_wider(names_from = min_max, values_from = min_max_values)</code></pre>
+<pre><code>## # A tibble: 2 x 6
+## # Groups:   quantile_var [2]
+##   quantile_var `25%`  `50%`  `75%`   min     max
+##   &lt;chr&gt;        &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+## 1 cases        722   1306.  2221    54   10940  
+## 2 vax           45.9   49.8   55.2  38.1    82.1</code></pre>
+<p><br> The national average vaccination percentage was 51% for the 2009-2010 swine flu season. It would be interesting to see if the seasons that the national average was higher also had lower number of cases. The average and standard deviation for numeric variables &quot;Cases&quot;, &quot;Hospitalizations&quot;, and &quot;Deaths&quot; between each state, and are displayed in table format. The quantile cutoff values for cases and average percent vaccinated for all three age groups per state were calculated, as well as the minimum and maximum number of cases and vaccination percentage across all 50 states.</p>
+<hr />
+</div>
+<div id="graphing-time" class="section level2">
+<h2>Graphing Time!!!!</h2>
+<div id="graph-1-correlation-heat-map-of-numeric-variables" class="section level4">
+<h4>Graph 1: Correlation heat map of numeric variables</h4>
+<pre class="r"><code># make unique ID
+df &lt;- unite(cases_vaccinations, State, age_group, col = &quot;State_AgeGroup&quot;, 
+    remove = F) %&gt;% ungroup() %&gt;% select(-State) %&gt;% 
+    select(-age_group)
+
+corheatmat &lt;- df %&gt;% na.omit %&gt;% select_if(is.numeric) %&gt;% 
+    cor(use = &quot;pair&quot;)
+
+
+tidycor &lt;- corheatmat %&gt;% as.data.frame %&gt;% rownames_to_column(&quot;var1&quot;) %&gt;% 
+    pivot_longer(-1, names_to = &quot;var2&quot;, values_to = &quot;correlation&quot;)
+
+
+tidycor %&gt;% ggplot(aes(var1, var2, fill = correlation)) + 
+    geom_tile() + scale_fill_gradient2(low = &quot;red&quot;, 
+    mid = &quot;white&quot;, high = &quot;blue&quot;) + geom_text(aes(label = round(correlation, 
+    2)), color = &quot;black&quot;, size = 4) + ggtitle(&quot;Correlation Heat Map of Numeric Variables&quot;) + 
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+    coord_fixed()</code></pre>
+<p><img src="/project1_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /> <br> This correlation heat map shows what we would hopefully expect from this merged dataset. The &quot;average_vaccinations&quot; variable, which describes the average vaccination rate across all age groups for each state, is negatively correlated with deaths and hospitalizations, and very loosely coorelated (.02) with cases (probably by lack of data, or spurious correlation). We would want a negative correlation between these variables because it indicates that the more people that are vaccinated in that state, the fewer number of cases, hospitalizations, and deaths are recorded in that state. We also see a bunch of blue in the middle of the plot, which is also what we would expect. It is intuitive that the number of cases would naturally be postively correlated with an increase in hospitalizations and deaths.</p>
+</div>
+<div id="graph-2-average-vaccination-for-all-age-groups-and-cases-per-state-graph-scatterplot-for-states-with-case-numbers-above-national-average" class="section level4">
+<h4>Graph 2: Average vaccination % (for all age groups) and cases per state graph (scatterplot) for states with case numbers above national average</h4>
+<pre class="r"><code>cases_vaccinations %&gt;% group_by(State) %&gt;% filter(!is.na(average_vaccinations)) %&gt;% 
+    mutate(avg_vaccination_percent = mean(average_vaccinations)) %&gt;% 
+    select(State, avg_vaccination_percent, cases, age_group) %&gt;% 
+    filter(cases &gt; national_average_cases) %&gt;% ggplot() + 
+    geom_point(aes(avg_vaccination_percent, cases, 
+        col = State)) + ggtitle(&quot;Average % Vaccinations and Cases for State Cases Above National Average&quot;) + 
+    xlab(&quot;Average Vaccination Percent&quot;) + ylab(&quot;Number of Cases&quot;)</code></pre>
+<p><img src="/project1_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /> <br> This scatterplot depicts the relationship between number of cases and average vaccination percentage of all age groups for all the states that are above the national average number of cases (2264.32 cases). There does not seem to be any correlation depicted in this graph between the two variables (we would expect a negative correlation). Since that number of cases is not a rate per person per state, but rather the raw numbers, it makes sense that Texas and California are above the national average number of cases just by shear population size. It is interesting, however, that Pennsylvania has a high average vaccination percentage (51.833%), and yet a high case number (10940 cases). While this outlier seems to contridict graph 1, the increase in cases could be explained by the cold weather experienced during flu season, driving people in Pennsylvania into close quarters to spread the disease easier. This could also explain the high number of cases in New York and Connecticut despite a relatively high average vaccination percent.</p>
+</div>
+<div id="graph-3-states-vaccination-percentage-for-each-age-group-facet-by-state-outline-facet-label-color-by-quantile-distinction-of-cases" class="section level4">
+<h4>Graph 3: States vaccination percentage for each age group, facet by state, outline facet label color by quantile distinction of cases</h4>
+<pre class="r"><code># determining if states are in 1st, 2nd or 3rd, or
+# 4th quantile for cases for bar graph below
+quantile_lowest_cases &lt;- quantile(case_quantile, 0.25)
+quantile_highest_cases &lt;- quantile(case_quantile, 0.75)
+cases_vaccinations &lt;- cases_vaccinations %&gt;% filter(!is.na(age_group)) %&gt;% 
+    mutate(states_quantile = case_when(cases &lt;= quantile_lowest_cases ~ 
+        &quot;low&quot;, cases &gt; quantile_lowest_cases &amp; cases &lt;= 
+        quantile_highest_cases ~ &quot;med&quot;, cases &gt; quantile_highest_cases ~ 
+        &quot;high&quot;))</code></pre>
+<pre class="r"><code>p1 = cases_vaccinations %&gt;% group_by(State) %&gt;% filter(!is.na(percentage_vaccinated)) %&gt;% 
+    ggplot(aes(x = age_group, y = percentage_vaccinated, 
+        fill = age_group)) + geom_bar(stat = &quot;summary&quot;) + 
+    scale_fill_brewer(palette = &quot;Dark2&quot;) + facet_wrap(states_quantile ~ 
+    State) + geom_hline(yintercept = 51.62267, linetype = &quot;longdash&quot;) + 
+    ggtitle(&quot;% Vaccinated by Age Group by State&quot;) + 
+    theme(plot.title = (element_text(size = 20, face = &quot;bold&quot;, 
+        hjust = 0.5)), axis.title.x = element_blank(), 
+        axis.text.x = element_blank(), strip.text = element_text(size = 2)) + 
+    ylab(&quot;Percent Vaccinated&quot;)
+
+p2 = cases_vaccinations %&gt;% group_by(State) %&gt;% filter(!is.na(percentage_vaccinated)) %&gt;% 
+    ggplot(aes(x = age_group, y = percentage_vaccinated, 
+        fill = age_group)) + facet_wrap(~State) + geom_rect(aes(fill = states_quantile), 
+    xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf) + 
+    theme_minimal()
+
+g1 &lt;- ggplotGrob(p1)
+g2 &lt;- ggplotGrob(p2)
+
+gtable_select &lt;- function(x, ...) {
+    matches &lt;- c(...)
+    x$layout &lt;- x$layout[matches, , drop = FALSE]
+    x$grobs &lt;- x$grobs[matches]
+    x
+}
+
+panels &lt;- grepl(pattern = &quot;panel&quot;, g2$layout$name)
+strips &lt;- grepl(pattern = &quot;strip_t&quot;, g2$layout$name)
+stript &lt;- grepl(pattern = &quot;strip-t&quot;, g2$layout$name)
+g2$layout$t[panels] &lt;- g2$layout$t[panels] - 1
+g2$layout$b[panels] &lt;- g2$layout$b[panels] - 1
+
+new_strips &lt;- gtable_select(g2, panels | strips | stript)
+grid.newpage()
+grid.draw(new_strips)
+
+gtable_stack &lt;- function(g1, g2) {
+    g1$grobs &lt;- c(g1$grobs, g2$grobs)
+    g1$layout &lt;- transform(g1$layout, z = z - max(z), 
+        name = &quot;g2&quot;)
+    g1$layout &lt;- rbind(g1$layout, g2$layout)
+    g1
+}
+
+# BIG thanks to source code:
+# https://stackoverflow.com/questions/19440069/ggplot2-facet-wrap-strip-color-based-on-variable-in-data-set?answertab=votes#tab-top</code></pre>
+<pre class="r"><code>new_plot &lt;- gtable_stack(g1, new_strips)
+grid.newpage()
+grid.draw(new_plot)</code></pre>
+<p><img src="/project1_files/figure-html/unnamed-chunk-15-1.png" width="1248" style="display: block; margin: auto;" /> <br></p>
+<p>Hold onto your britches for this doozy. These faceted bar graphs are showing vaccination percentage for each recorded age group in each state, shown in the legend. The dashed line indicates the national average vaccinated percent (51.62267%). The facet labels are colored according to quantile distinction for number of cases in that state. A pink label indicates that the state is considered &quot;high&quot;, or above the 3rd quartile. The blue label indicates &quot;medium&quot;, or between the 1st and 3rd quantiles (between &gt;25% and 75%). The green label indicates &quot;low&quot;, or in the 1st quartile for cases (25% and below).</p>
+<p>Bars above the dashed line symbolize for that age group in that specific state, their vaccination percentage rate is above the overall national average percentage rate. It looks like the highest bar for percent vaccinations for the nation as a whole is the 6 months to 17 years age group. This is probably due to parental influence. Looking at the pink labeled states, it looks as though almost all these states' purple &quot;18 years+&quot; group is less than the national average for vaccinations. It is interesting that Delaware, a green labeled group, looks as though their vaccination percentage across all groups is low, yet with a few number of cases. This may be due to Deleware's small population, or maybe because the Delewarians are hermits that never leave the house ever, neither to get vaccinated or to catch the virus.</p>
+<hr />
+</div>
+</div>
+<div id="clustering-statistics" class="section level2">
+<h2>Clustering Statistics</h2>
+<pre class="r"><code># PAM creating a data frame to examine clusters
+df2 &lt;- unite(cases_vaccinations, State, age_group, 
+    col = &quot;State_AgeGroup&quot;, remove = F) %&gt;% ungroup() %&gt;% 
+    mutate_if(is.character, as.factor) %&gt;% select(-State, 
+    -age_group, -states_quantile) %&gt;% na.omit
+
+# choosing clusters
+sil_width &lt;- vector()
+for (i in 2:50) {
+    pam_fit &lt;- pam(df2, k = i)
+    sil_width[i] &lt;- pam_fit$silinfo$avg.width
+}
+ggplot() + geom_line(aes(x = 1:50, y = sil_width)) + 
+    scale_x_continuous(name = &quot;k&quot;, breaks = 1:50) + 
+    theme(axis.text.x = element_text(size = 5)) + geom_point(aes(x = 8, 
+    y = 0.63), color = &quot;red&quot;)</code></pre>
+<p><img src="/project1_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># clustering using PAM
+pam1 &lt;- df2 %&gt;% select(-1) %&gt;% scale %&gt;% pam(k = 8)
+pam1</code></pre>
+<pre><code>## Medoids:
+##      ID      cases Hospitalizations     Deaths percentage_vaccinated
+## [1,] 28 -0.3681047      -1.21289162 -0.5407067            -1.0827275
+## [2,] 55 -0.3444917      -0.31923551  0.1087812            -0.3968249
+## [3,]  7  3.5936327       1.09597415 -0.1823685            -0.2076104
+## [4,] 10 -0.3235023       1.38267611  0.8478536            -1.1536829
+## [5,] 61 -0.1468421       1.36132596 -0.4735183            -0.3140435
+## [6,] 52  0.6113977       0.04676699 -0.4511221             0.7502881
+## [7,] 31 -0.8324938      -1.11834097 -0.6302912             0.1826446
+## [8,] 37  1.1859808       1.53212713  3.6473704            -0.5623876
+##      average_vaccinations
+## [1,]          -1.38751988
+## [2,]          -0.50677678
+## [3,]           0.02271758
+## [4,]          -1.46615765
+## [5,]           0.04368765
+## [6,]           1.22849682
+## [7,]           0.30581357
+## [8,]          -0.39668389
+## Clustering vector:
+##  [1] 1 1 1 2 2 2 3 3 3 4 4 4 1 2 1 5 6 5 6 6 6 5 5 5 6 6 6 1 1 1 7 7 7 2 2 2 8 8
+## [39] 8 2 2 2 7 7 7 2 2 2 7 6 7 6 6 6 2 2 2 7 6 7 5 5 5
+## Objective function:
+##     build      swap 
+## 0.8664379 0.8638319 
+## 
+## Available components:
+##  [1] &quot;medoids&quot;    &quot;id.med&quot;     &quot;clustering&quot; &quot;objective&quot;  &quot;isolation&quot; 
+##  [6] &quot;clusinfo&quot;   &quot;silinfo&quot;    &quot;diss&quot;       &quot;call&quot;       &quot;data&quot;</code></pre>
+<pre class="r"><code># looking at clusters
+df2 %&gt;% mutate(cluster = pam1$clustering) %&gt;% arrange(cluster)</code></pre>
+<pre><code>## # A tibble: 63 x 7
+##    State_AgeGroup cases Hospitalizations Deaths percentage_vacc…
+##    &lt;fct&gt;          &lt;dbl&gt;            &lt;dbl&gt;  &lt;int&gt;            &lt;dbl&gt;
+##  1 Alaska_less6m…  1563               18     13             45.1
+##  2 Alaska_6month…  1563               18     13             51.3
+##  3 Alaska_18year…  1563               18     13             42.9
+##  4 Idaho_less6mo…  1171              389     23             42.9
+##  5 Idaho_18years…  1171              389     23             41.4
+##  6 Montana_less6…   961                9     19             44  
+##  7 Montana_6mont…   961                9     19             45.6
+##  8 Montana_18yea…   961                9     19             43.4
+##  9 Colorado_less…  1321              578     70             49.7
+## 10 Colorado_6mon…  1321              578     70             55.8
+## # … with 53 more rows, and 2 more variables: average_vaccinations &lt;dbl&gt;,
+## #   cluster &lt;int&gt;</code></pre>
+<pre class="r"><code># looking at final mediods
+df2 %&gt;% slice(pam1$id.med)</code></pre>
+<pre><code>## # A tibble: 8 x 6
+##   State_AgeGroup cases Hospitalizations Deaths percentage_vacc… average_vaccina…
+##   &lt;fct&gt;          &lt;dbl&gt;            &lt;dbl&gt;  &lt;int&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+## 1 Montana_less6…   961                9     19             44               44.3
+## 2 Utah_less6mon…   988              302     48             49.8             49.9
+## 3 Connecticut_l…  5491              766     35             51.4             53.3
+## 4 Georgia_less6…  1012              860     81             43.4             43.8
+## 5 West Virginia…  1214              853     22             50.5             53.4
+## 6 South Dakota_…  2081              422     23             59.5             61.0
+## 7 Nebraska_less…   430               40     15             54.7             55.1
+## 8 New York_less…  2738              909    206             48.4             50.6</code></pre>
+<p>Its interesting that all the final mediods are in the vaccination age group of 'less than 6 months.'</p>
+<p><br></p>
+<pre class="r"><code># graphing clusters
+df3 &lt;- df2 %&gt;% select(-1) %&gt;% mutate(cluster = as.factor(pam1$clustering))
+df3 %&gt;% ggpairs(columns = 1:6, aes(color = cluster), 
+    upper = list(continuous = wrap(&quot;cor&quot;, size = 9))) + 
+    theme_grey(base_size = 30)</code></pre>
+<p><img src="/project1_files/figure-html/unnamed-chunk-17-1.png" width="2880" style="display: block; margin: auto;" /> <br> I chose 8 clusters because it was a peak in the silhouette peak graph(shown by a red dot). The best number of clusters, 21, was too large to compute and would not have revealed anything significant about the clusters because there would be so little observations in each cluster. The next best cluster peak number was 14, but the graphs were too busy and confusing to interpret. The next best cluster number was 8, which is what was used to generate the graphs above.</p>
+<p>Cluster 1 (red) is probably clustered most strongly by number of deaths, with a high peak of around 200. Cluster 2 (yellow) is tightly clustered at three peaks for average vaccinations, having the highest number of state_AgeGroups in its cluster. Cluster 5 and 6 aslo cluster tightly in average percent vaccinations, and weaker in deaths. Cluster 7 (purple) exhibits a cluster of state_AgeGroups with a high number of cases, hospitalization, and deaths. As expected from our correlation heat map, as well as from the correlations shown in the graph above, cluster 7 exhibits a low percentage vaccinated and a very wide distribution of average vaccinations. Overall, the clustering shown in the graph above does not reveal any striking cluster groups, but it overall reveals that despite differences in case numbers and vaccination % accross the county, there is not a clear group of states_ageGroups that are preventing the flu the best (with very low case numbers and high vaccination percent), but cluster 7 is the closest to earning this title. <br> <br></p>
+<div id="so-what-can-be-concluded-from-this-dataset-well-there-is-a-negative-correlation-between-vaccinations-and-hospitalizationsdeaths-due-to-the-flu-in-the-flu-season-of-2009-2010.-there-is-also-a-very-weak-positive-correlation-between-cases-and-vaccination-percentage-but-that-could-be-more-clearly-evaluated-in-a-more-reliable-dataset-about-cases.-it-is-likely-that-there-would-be-a-much-higher-case-number-if-vaccinations-percentage-was-lower-but-could-only-be-tested-if-the-data-set-was-more-reliable.-moral-of-the-story-always-get-your-flu-vaccine-if-you-can-it-doesnt-seem-to-hurt" class="section level4">
+<h4>So what can be concluded from this dataset? Well, there is a negative correlation between vaccinations and hospitalizations/deaths due to the flu in the flu season of 2009-2010. There is also a very weak positive correlation between cases and vaccination percentage, but that could be more clearly evaluated in a more reliable dataset about cases. It is likely that there would be a much higher case number if vaccinations percentage was lower, but could only be tested if the data set was more reliable. Moral of the story: always get your flu vaccine if you can, it doesn't seem to hurt!</h4>
+<p><br></p>
+<p>gif image source: media.giphy</p>
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;">
+
+</div>
+</div>
+</div>
