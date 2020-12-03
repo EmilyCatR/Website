@@ -1,0 +1,54 @@
+---
+title: Class Cirle 
+author: Emily
+date: '2020-12-03'
+slug: set-up
+categories: []
+tags: []
+description: ''
+---
+
+```{python}
+import turtle
+import random
+
+
+class Circle:
+    
+    #initialize any values you need for a class, what you want "Circle" to have
+    def __init__(self, x, y, r, color, line_width=2):
+        self.x = x #on this particular circle, set x value to x value put in
+        self.y = y
+        self.radius = r
+        self.color = color
+        self.line_width = line_width
+        
+    #other methods are for what you want Circle to do
+    def draw(self):
+        turtle.penup()
+        turtle.goto(self.x, self.y)
+        turtle.color(self.color)
+        turtle.pensize(self.line_width)
+        turtle.pendown()
+        turtle.circle(self.radius)
+        
+    #define how you want something to print. How to turn object into string
+    def __str__(self):
+        return "x = " + str(self.x) + \
+               "\ny = " + str(self.y) + \
+               "\nr = " + str(self.radius)
+               
+def main():
+    #make 50 randomly colored, randomly located circles
+    for i in range(50):
+        x = random.randint(-250, 250)
+        # x = i * 4
+        # y = i * 4
+        y = random.randint(-250, 250)
+        color = random.choice(["red", "blue", "green", "orange", "purple"])
+        c = Circle(x, y, 50, color)
+        c.draw()
+        
+main()
+
+```

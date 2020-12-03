@@ -9,7 +9,7 @@ description: ''
 ---
 <center>
 
-![source:genengnews](/2020-11-10-set-up/index_files/CRISPR.png){width=75% height=75%}
+![CRISPR](/2020-11-10-set-up/index_files/CRISPY.png)
 
 </center>
 

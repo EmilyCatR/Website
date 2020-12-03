@@ -24,7 +24,7 @@ output: html_document
 - Basic understanding of python syntax 
 - Knowledge of for and while loops
 - Experince using Pandas, numpy, and regex
-- Some experience with OOP, GUIs
+- Some experience with OOP
 
 
 <br>
