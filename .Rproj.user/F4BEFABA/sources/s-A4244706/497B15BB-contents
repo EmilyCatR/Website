@@ -30,7 +30,7 @@ print(oligos)
 ```
 <br>
 
-Now we have found the several potential oligo sequences to insert into our plasmid! Let's create a class that contains functions to help create the reverse oligo!
+Now we have found the several potential oligo sequences to insert into our plasmid! Let's create some functions to help create the reverse oligo!
 
 <br>
 
