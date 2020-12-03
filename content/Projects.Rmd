@@ -1,5 +1,6 @@
 ---
 author: "Emily"
+date: '2020-11-10'
 output: html_document
 ---
 ## Projects for Data Interpretation: R

@@ -12,6 +12,10 @@ description: ''
 <script src="index_files/anchor-sections/anchor-sections.js"></script>
 
 
+<div class="figure">
+<img src="/2020-11-10-set-up/index_files/CRISPR.png" style="width:75.0%" style="height:75.0%" />
+
+</div>
 <p>Regex is a python function that allows users to search for anything within a string. For example, I have taken the coding sequence for a transcription factor called &quot;WRKY41&quot;, a protein responsible for regulating the transcription of an ABA target gene (i.e abi3) in Arabidopsis plants. My lab wanted to contruct a CRISPR based plasmid to knockout this gene in plants. To do so, we needed to find the PAM sequence NGG (where N is any nucleotide) and return the 19 nucleotides in front of it.</p>
 <pre class="r"><code>library(reticulate)</code></pre>
 <pre class="python"><code>import re 

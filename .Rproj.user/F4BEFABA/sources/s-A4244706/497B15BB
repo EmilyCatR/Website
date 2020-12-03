@@ -5,15 +5,15 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "614721353",
+    "hash" : "0",
     "id" : "497B15BB",
-    "lastKnownWriteTime" : 1606976876,
-    "last_content_update" : 1606976876508,
+    "lastKnownWriteTime" : 1607013519,
+    "last_content_update" : 1607013519697,
     "path" : "~/Desktop/Website/content/blog/2020-11-10-set-up/index.Rmd",
     "project_path" : "content/blog/2020-11-10-set-up/index.Rmd",
     "properties" : {
-        "cursorPosition" : "32,112",
-        "scrollLine" : "30"
+        "cursorPosition" : "2,13",
+        "scrollLine" : "0"
     },
     "relative_order" : 5,
     "source_on_save" : false,
