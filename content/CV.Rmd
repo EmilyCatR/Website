@@ -20,7 +20,7 @@ output: html_document
 - Statistical tests such as PERMANOVA, PCA, CV/Lasso (demonstrated in Projects 1 and 2)
 
 
-###Python Skills
+###Python Skills:
 - Basic understanding of python syntax 
 - Knowledge of for and while loops
 - Experince using Pandas, numpy, and regex
