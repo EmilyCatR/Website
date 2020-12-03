@@ -9,7 +9,7 @@ This data is about flu cases/hospitalizations/deaths per state and percent of pe
 ```{r echo=FALSE, results='hide'}
 library(tidyverse)
 library(ggplot2)
-setwd("/Users/emilyreed/Desktop/Website/content")
+
 flu_cases <- read.csv("Flu_cases.csv") 
 vaccinations <- read.csv("Vaccinations.csv")
 ```

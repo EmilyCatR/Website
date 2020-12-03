@@ -9,9 +9,9 @@ This data is about flu cases/hospitalizations/deaths per state and percent of pe
 ```{r echo=FALSE, results='hide'}
 library(tidyverse)
 library(ggplot2)
-setwd("/Users/emilyreed/Desktop/Website/content")
-flu_cases <- read.csv("Flu_cases.csv") 
-vaccinations <- read.csv("Vaccinations.csv")
+
+flu_cases <- read.csv("content/Flu_cases.csv") 
+vaccinations <- read.csv("content/Vaccinations.csv")
 ```
 
 Flu cases has 56 observations (1 per state, plus a few territories). "cases", "hospitalizations", and "deaths" refers to the number of cases, hospital visits, and death due to influenza reported in that state for the 2009-2010 flu season. This data is NOT separated by age.

@@ -1,0 +1,62 @@
+---
+title: Python Regex for Detecting PAM sequences
+author: Emily
+date: '2020-11-10'
+slug: set-up
+categories: []
+tags: []
+description: ''
+---
+
+<link href="index_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="index_files/anchor-sections/anchor-sections.js"></script>
+
+
+<p>Regex is a python function that allows users to search for anything within a string. For example, I have taken the coding sequence for a transcription factor called &quot;WRKY41&quot;, a protein responsible for regulating the transcription of an ABA target gene (i.e abi3) in Arabidopsis plants. My lab wanted to contruct a CRISPR based plasmid to knockout this gene in plants. To do so, we needed to find the PAM sequence NGG (where N is any nucleotide) and return the 19 nucleotides in front of it.</p>
+<pre class="r"><code>library(reticulate)</code></pre>
+<pre class="python"><code>
+import re 
+
+cds= &quot;ATGGAAATGATGAATTGGGAGCGGAGGAGTTTGCTAAACGAGCTAATTCATGGACTAAAAGCGGCCAAGCAGCTTCAGGGTTCGTCTTCTCCATCGTTGTCAGCTTCTTCTTCATATTTGACGACGGAGATAAAGGAGAATCTCTTACATAACATAGTTTCTTCCTTCAAAAAAGCTATTTTGATGCTCAACGGATCCACCACACAACACAATCCAACGATAGAGCTTGCGCCTGATCCCCTAGCTCATCCCGGAAAGGTTCCAGGATCTCCAGCATCGATCACCGGAAATCCGAGAAGCGAAGAGTTTTTCAATGTAAGATCGAAAGAATTCAACTTAAGTTCTAAAAAGAGGAAGATGTTGCCAAAGTGGACAGAGCAAGTGAGAATTAGCCCAGAGAGAGGCTTAGAAGGACCTCATGACGATATCTTCAGCTGGAGAAAATATGGCCAGAAAGACATTTTGGGCGCCAAATTCCCAAGGAGTTATTACAGATGCACATTTCGTAACACACAGTACTGTTGGGCTACGAAACAAGTCCAAAGATCGGACGGTGATCCAACGATCTTCGAAGTAACATACAGAGGAACACACACTTGTTCACAGGGGATCCCACTTCCAGAGAAACGAGAAACCAAACCAAAACACACAGTAGCAGTAAATTACCAGAATCTCAGGGCCAGTCTTACCGTACGTACCGGCGGACTTGGAAGCGAAGCTTTCTCATTCCCCGTCACGTCGCCGTTATACACTTACGAGTCCATCAACGGTGGTGGAACGTTTTACCACCACGTGGGAAGTTCTGGTCCGTCGGATTTCACTGGATTGATCTCAACAAATACTTCCACAGGAAGTTCTCCAATCTTCGACGTTAATTTTCAATTTGATCCAACGGCTGAGATTAACACAGGCTTCCCCACTTTTTTCCACAATTCGATTTAA&quot;
+
+
+oligos = re.findall(r&quot;\w{19}.GG&quot;, cds)
+
+print(oligos)</code></pre>
+<pre><code>## [&#39;GGAAATGATGAATTGGGAGCGG&#39;, &#39;TGCTAAACGAGCTAATTCATGG&#39;, &#39;AAAGCGGCCAAGCAGCTTCAGG&#39;, &#39;TCTTCTTCATATTTGACGACGG&#39;, &#39;AAGCTATTTTGATGCTCAACGG&#39;, &#39;CTGATCCCCTAGCTCATCCCGG&#39;, &#39;GATCTCCAGCATCGATCACCGG&#39;, &#39;CAACTTAAGTTCTAAAAAGAGG&#39;, &#39;TGAGAATTAGCCCAGAGAGAGG&#39;, &#39;TCATGACGATATCTTCAGCTGG&#39;, &#39;TATGGCCAGAAAGACATTTTGG&#39;, &#39;TCGTAACACACAGTACTGTTGG&#39;, &#39;ACGAAACAAGTCCAAAGATCGG&#39;, &#39;TCTTCGAAGTAACATACAGAGG&#39;, &#39;AACACACACTTGTTCACAGGGG&#39;, &#39;AGTAAATTACCAGAATCTCAGG&#39;, &#39;CCAGTCTTACCGTACGTACCGG&#39;, &#39;ACACTTACGAGTCCATCAACGG&#39;, &#39;GGAACGTTTTACCACCACGTGG&#39;, &#39;CTGGTCCGTCGGATTTCACTGG&#39;, &#39;TCTCAACAAATACTTCCACAGG&#39;, &#39;AATTTTCAATTTGATCCAACGG&#39;]</code></pre>
+<p><br></p>
+<p>Now we have found the several potential oligo sequences to insert into our plasmid! Let's create a class that contains functions to help create the reverse oligo!</p>
+<p><br></p>
+<pre class="python"><code>
+oligo1= &quot;GGAAATGATGAATTGGGAG&quot;
+
+def my_reverse(sq): 
+  str = &quot;&quot; 
+  for i in sq: 
+    str = i + str
+  return str
+
+sq=(my_reverse(oligo1))
+
+#Then generate the complementary sequence
+def reverse_oligo(sq):
+  reverse_sq = &quot;&quot;
+  for bp in sq:
+    if bp == &quot;A&quot;:
+      reverse_sq += &quot;T&quot;
+    elif bp == &quot;G&quot;:
+      reverse_sq += &quot;C&quot;
+    elif bp ==&quot;T&quot;:
+      reverse_sq += &quot;A&quot;
+    elif bp ==&quot;C&quot;:
+      reverse_sq += &quot;G&quot;
+  return reverse_sq
+  
+rsq=(reverse_oligo(sq))
+
+print(&quot;forward sequence is: &quot;+ oligo1)</code></pre>
+<pre><code>## forward sequence is: GGAAATGATGAATTGGGAG</code></pre>
+<pre class="python"><code>print(&quot;reverse sequence is: &quot; + rsq)
+</code></pre>
+<pre><code>## reverse sequence is: CTCCCAATTCATCATTTCC</code></pre>
+<p>Now we have generated sequences both in forward and reverse directions to insert into our CRISPR plasmid. Hooray!</p>

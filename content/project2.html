@@ -1,0 +1,841 @@
+---
+title: "The Domino(s) Effect: Pizza Stats"
+author: "Emily Reed"
+date: "9/30/2020"
+output:
+  html_document:
+    theme: journal
+    toc: true
+    toc_float:
+      collapsed: false
+      
+      
+---
+
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<hr />
+<div id="introduction-and-setup" class="section level1">
+<h1>Introduction and Setup</h1>
+<p><br></p>
+<center>
+<div class="figure">
+<img src="https://media.giphy.com/media/9fuvOqZ8tbZOU/giphy.gif" alt="Source: media.giphy" />
+<p class="caption">Source: media.giphy</p>
+</div>
+</center>
+<p><br></p>
+<p>For the past several months, I have been working at a pizza place as a delivery driver. This dataset &quot;pizza_data.csv&quot; is data I have collected over the past few weeks. The data includes 9 different variables described below. <br></p>
+<blockquote>
+<h3 id="variables">Variables</h3>
+<ol style="list-style-type: decimal">
+<li>Date: The date of the pizza delivery</li>
+<li>area: The section location of the delivery. Sections 1-16 and &quot;MAIN&quot; are designated by the store</li>
+<li>apartment_or_house: Designates whether the delivery was to a house or apartment</li>
+<li>street_name: name or address of pizza delivery location</li>
+<li>time: time that the order left the store</li>
+<li>total: total cost of pizza order, without the tip</li>
+<li>tip_method: How the customer tipped the driver, with three options of &quot;pre_paid&quot;, &quot;write_in&quot; (customer signed receipt), and &quot;cash_order&quot;(customer did not pre-pay for entire order, instead paid with cash + tip at door)</li>
+<li>hours_worked: The number of hours worked in that shift for that day</li>
+<li>position_worked: The title of the position worked for that shift. Options include &quot;Rush&quot;(usually the shortest shift, starting anywhere from 4-6pm and ending anywhere from 6~9pm), &quot;Late&quot; (usually begins around 5-6pm, and ends around 9-11pm), and &quot;Close&quot; (usually begins around 5-6pm, ends around 1-2am)</li>
+</ol>
+</blockquote>
+<p><br> There are 282 delivery observations over 20 shifts. I typically work rush or late shifts, but occasionally close. For this reason, there are more days that are &quot;rush&quot; or &quot;late&quot; than &quot;close,&quot; (a total of 5 days for close).</p>
+<p><br></p>
+<pre class="r"><code>setwd(&quot;/Users/emilyreed/Desktop/Website/content&quot;)
+pizza &lt;- read.csv(&quot;pizza_data.csv&quot;)
+glimpse(pizza)</code></pre>
+<pre><code>## Rows: 282
+## Columns: 10
+## $ Date               &lt;chr&gt; &quot;10/8/20&quot;, &quot;10/8/20&quot;, &quot;10/8/20&quot;, &quot;10/8/20&quot;, &quot;10/8/…
+## $ area               &lt;chr&gt; &quot;11&quot;, &quot;MAIN&quot;, &quot;5&quot;, &quot;15&quot;, &quot;12&quot;, &quot;MAIN&quot;, &quot;MAIN&quot;, &quot;15…
+## $ apartment_or_house &lt;chr&gt; &quot;H&quot;, &quot;A&quot;, &quot;H&quot;, &quot;A&quot;, &quot;H&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, …
+## $ street_name        &lt;chr&gt; &quot;cottonweed Trl&quot;, &quot;350 Cypress Creek&quot;, &quot;Tattler Dr…
+## $ time               &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+## $ total              &lt;dbl&gt; 41.06, 26.48, 21.00, 14.05, 23.78, 25.95, 21.08, 1…
+## $ tip                &lt;chr&gt; &quot;0&quot;, &quot;5.3&quot;, &quot;3.15&quot;, &quot;5&quot;, &quot;2.38&quot;, &quot;3.89&quot;, &quot;3.92&quot;, &quot;…
+## $ tip_method         &lt;chr&gt; &quot;write in&quot;, &quot;pre-tip&quot;, &quot;pre-tip&quot;, &quot;pre-tip&quot;, &quot;pre-…
+## $ hours_worked       &lt;dbl&gt; 4.75, 4.75, 4.75, 4.75, 4.75, 4.75, 4.75, 4.75, 4.…
+## $ position_worked    &lt;chr&gt; &quot;Late&quot;, &quot;Late&quot;, &quot;Late&quot;, &quot;Late&quot;, &quot;Late&quot;, &quot;Late&quot;, &quot;L…</code></pre>
+<p><br></p>
+<p>I wanted to look at tips as a percentage rather than just an amount, so I created a new variable called &quot;tip_perc&quot; to see the percentage of tip compared to the whole total.</p>
+<pre class="r"><code>pizza &lt;- pizza %&gt;% mutate(tip = as.numeric(tip)) %&gt;% 
+    mutate(tip_perc = ((tip * 100)/total)) %&gt;% filter(tip_perc != 
+    Inf)</code></pre>
+<p><br></p>
+<p>I also wanted to see how much money I made in tips per day as a rate per hour:</p>
+<pre class="r"><code># first making rate a new variable
+pizza2 &lt;- pizza %&gt;% group_by(Date) %&gt;% filter(!is.na(tip)) %&gt;% 
+    filter(!is.na(total)) %&gt;% mutate(total_tips = sum(tip)) %&gt;% 
+    mutate(rate = (total_tips/hours_worked))
+
+# now displaying each rate in descending order
+pizza %&gt;% group_by(Date) %&gt;% filter(!is.na(tip)) %&gt;% 
+    filter(!is.na(total)) %&gt;% mutate(total_tips = sum(tip)) %&gt;% 
+    mutate(rate = (total_tips/hours_worked)) %&gt;% summarize(rate = unique(rate)) %&gt;% 
+    arrange(desc(rate))</code></pre>
+<pre><code>## # A tibble: 20 x 2
+##    Date      rate
+##    &lt;chr&gt;    &lt;dbl&gt;
+##  1 10/22/20 17.7 
+##  2 11/5/20  17.3 
+##  3 11/1/20  17.3 
+##  4 11/15/20 15.8 
+##  5 10/16/20 15.1 
+##  6 10/23/20 14.3 
+##  7 10/29/20 12.7 
+##  8 10/10/20 12.6 
+##  9 10/9/20  12.4 
+## 10 10/15/20 11.2 
+## 11 10/30/20 10.9 
+## 12 11/8/20  10.8 
+## 13 10/11/20 10.6 
+## 14 10/31/20 10.6 
+## 15 10/18/20 10.5 
+## 16 11/13/20 10.4 
+## 17 11/14/20 10.1 
+## 18 10/8/20   9.78
+## 19 11/12/20  9.02
+## 20 10/25/20  8.65</code></pre>
+<pre class="r"><code># how many deliveries did I take each day and how
+# much money did I earn in tips?
+pizza %&gt;% group_by(Date) %&gt;% filter(!is.na(tip)) %&gt;% 
+    summarize(deliveries = n(), tip_total = sum(tip)) %&gt;% 
+    arrange(desc(deliveries))</code></pre>
+<pre><code>## # A tibble: 20 x 3
+##    Date     deliveries tip_total
+##    &lt;chr&gt;         &lt;int&gt;     &lt;dbl&gt;
+##  1 10/9/20          28     112. 
+##  2 11/14/20         25      88.2
+##  3 10/31/20         21      90.1
+##  4 11/12/20         21      81.2
+##  5 11/13/20         20      88.1
+##  6 10/22/20         17      83.8
+##  7 10/23/20         17      75.2
+##  8 10/16/20         14      64.1
+##  9 10/8/20          14      46.5
+## 10 10/15/20         13      53.0
+## 11 10/30/20         13      49.2
+## 12 11/8/20          13      53.8
+## 13 11/1/20          11      51.8
+## 14 11/15/20         10      55.2
+## 15 11/5/20          10      43.2
+## 16 10/10/20          9      37.9
+## 17 10/11/20          9      32.0
+## 18 10/29/20          7      38.1
+## 19 10/18/20          5      18.3
+## 20 10/25/20          3      10.8</code></pre>
+<hr />
+</div>
+<div id="manova" class="section level1">
+<h1>MANOVA</h1>
+<p>Alright, for the MANOVA I wanted to see if rate of tips per hour and tip percentage differed significantly by the position I worked. Since all other numeric variables were used in the creation of tip_perc and rate, I decided to omit them and just focus on the two listed above.</p>
+<ul>
+<li>Hypotheses:
+<ul>
+<li>H0: for each position worked (rush, late, close), the means for all groups (rate and tip_perc) are equal</li>
+<li>Ha: for at least one position, at least 1 group (rate and/or tip_perc) mean differs.</li>
+</ul></li>
+</ul>
+<pre class="r"><code># Running the MANOVA
+pizza_no_NAs &lt;- pizza2 %&gt;% na.omit
+man1 &lt;- manova(cbind(rate, tip_perc) ~ position_worked, 
+    data = pizza_no_NAs)
+summary(man1)  #significant!!!!!!!</code></pre>
+<pre><code>##                  Df  Pillai approx F num Df den Df    Pr(&gt;F)    
+## position_worked   2 0.34455   24.247      4    466 &lt; 2.2e-16 ***
+## Residuals       233                                             
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>summary.aov(man1)  #shows that rate is significant, not tip percentage with position worked</code></pre>
+<pre><code>##  Response rate :
+##                  Df  Sum Sq Mean Sq F value    Pr(&gt;F)    
+## position_worked   2  608.47 304.235  60.495 &lt; 2.2e-16 ***
+## Residuals       233 1171.78   5.029                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+##  Response tip_perc :
+##                  Df Sum Sq Mean Sq F value Pr(&gt;F)
+## position_worked   2    282  141.24  0.3327 0.7173
+## Residuals       233  98904  424.48</code></pre>
+<pre class="r"><code># which position?
+pairwise.t.test(pizza_no_NAs$rate, pizza_no_NAs$position_worked, 
+    p.adj = &quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  pizza_no_NAs$rate and pizza_no_NAs$position_worked 
+## 
+##      Close  Late
+## Late 4e-15  -   
+## Rush &lt;2e-16 0.27
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code># probability of making a type 1 error
+Pr_type1error = 1 - 0.95^5
+Pr_type1error</code></pre>
+<pre><code>## [1] 0.2262191</code></pre>
+<pre class="r"><code># adjusted significance level, still significant
+a = 0.05/5</code></pre>
+<p><br> Five statistical tests were performed. The probability of making a type 1 error was 22.6%, so that also must be taken in to consideration. To account for this, the adjusted significance level was calculated to be .01. Using this number, late and close are significantly different in rate per hour (p value&lt;.01), as well as rush and close (p value&lt;.01). However, rush and late are not significantly different from each other in rate or tip_perc (p value&gt;.01). <br></p>
+<div id="checking-assumptions" class="section level3">
+<h3>Checking Assumptions</h3>
+<pre class="r"><code>group &lt;- pizza_no_NAs$position_worked
+DVs &lt;- pizza_no_NAs %&gt;% ungroup() %&gt;% select(rate, 
+    tip_perc)
+
+# Test multivariate normality for each group
+sapply(split(DVs, group), mshapiro_test)</code></pre>
+<pre><code>##           Close        Late         Rush        
+## statistic 0.2754013    0.4345129    0.4965609   
+## p.value   6.971036e-20 2.062022e-14 2.564588e-14</code></pre>
+<pre class="r"><code># check for mulitvariate normality via graph
+ggplot(pizza_no_NAs, aes(x = rate, y = tip_perc)) + 
+    geom_point(alpha = 0.5) + geom_density2d(aes(color = position_worked)) + 
+    facet_wrap(~position_worked)</code></pre>
+<p><img src="/project_2_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>pizza_no_NAs &lt;- pizza_no_NAs %&gt;% relocate(tip_perc, 
+    .after = total_tips)
+
+# check for homogenity of covariances (for fun,
+# even though multivariate normality is violated)
+# Box&#39;s M test
+box_m(DVs, group)</code></pre>
+<pre><code>## # A tibble: 1 x 4
+##   statistic  p.value parameter method                                           
+##       &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;                                            
+## 1      87.7 9.13e-17         6 Box&#39;s M-test for Homogeneity of Covariance Matri…</code></pre>
+<pre class="r"><code># View covariance matrices for each group
+lapply(split(DVs, group), cov)</code></pre>
+<pre><code>## $Close
+##               rate    tip_perc
+## rate     1.3344802   0.3587544
+## tip_perc 0.3587544 589.4262426
+## 
+## $Late
+##               rate   tip_perc
+## rate      8.610311  -1.372266
+## tip_perc -1.372266 369.783763
+## 
+## $Rush
+##               rate   tip_perc
+## rate      6.900647  -3.266294
+## tip_perc -3.266294 246.119125</code></pre>
+<blockquote>
+<h3 id="manova-assumptions">MANOVA Assumptions:</h3>
+<ul>
+<li>Random Samples: <em>All of our deliveries are randomly assigned to each driver.</em><br />
+</li>
+<li>Multivariate Normality: <em>P values of multivariate test are p&lt;.05, meaning the null assumption that normality is met is rejected. Graphs also indicate normality is violated.</em></li>
+<li>Homogeneity of within-group covariance matrices: <em>P-value&lt;.05 for mox M's test, meaning homogenity assumption is violated. The matrices look very different</em></li>
+<li>Linear relationships among DVs: <em>nope. higher tip_perc for one delivery does not mean overall rate for the day will be higher</em></li>
+<li>No extreme univariate or multivariate outliers: <em>there are some large outliers in tip_perc</em></li>
+<li>No multicollinearity (i.e., DVs should not be too correlated): <em>rate and tip_perc should be different enough</em></li>
+</ul>
+</blockquote>
+<p><br></p>
+<p>Overall, the data does not meet the assumptions for a valid MANOVA to be possible.</p>
+<p><br></p>
+<hr />
+</div>
+</div>
+<div id="randomization-test" class="section level1">
+<h1>Randomization Test</h1>
+<p><br> I wanted to see if housing type (aka apartment or house) was significantly related to tip percentage.</p>
+<ul>
+<li>Hypotheses:
+<ul>
+<li>H0: housing type (apartment of house) is not significantly related to tip percentage</li>
+<li>Ha: housing type (apartment of house) is significantly related with tip percentage</li>
+</ul></li>
+</ul>
+<pre class="r"><code># Finding average percentaged tipped in apartments
+# and houses
+pizza_no_NAs %&gt;% group_by(apartment_or_house) %&gt;% summarize(means = mean(tip_perc))</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   apartment_or_house means
+##   &lt;chr&gt;              &lt;dbl&gt;
+## 1 A                   16.3
+## 2 H                   20.2</code></pre>
+<pre class="r"><code># scaling tip perc
+pizza_scale &lt;- pizza_no_NAs %&gt;% mutate_if(is.numeric, 
+    scale)
+
+# Finding the observed difference in means
+pizza_scale %&gt;% group_by(apartment_or_house) %&gt;% summarize(means = mean(tip_perc)) %&gt;% 
+    summarize(mean_diff = diff(means))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   mean_diff
+##       &lt;dbl&gt;
+## 1     0.161</code></pre>
+<p><br></p>
+<p>On average, 'houses' tipped 20.24% of the total price, while apartments tipped 16.25% on average. Houses tipped ~4% more than apartments, based on total price of the order. Using the scaled data, the mean difference between housing type was .1614303, which will be used to calculate the two tailed p-value.</p>
+<p><br></p>
+<pre class="r"><code># Randomization test. Scrambling houses and
+# apartments and their tip percentages
+
+set.seed(12)
+rand_dist &lt;- vector()
+
+for (i in 1:5000) {
+    new &lt;- data.frame(tip_perc = sample(pizza_scale$tip_perc), 
+        apartment_or_house = pizza_no_NAs$apartment_or_house)
+    rand_dist[i] &lt;- mean(new[new$apartment_or_house == 
+        &quot;H&quot;, ]$tip_perc) - mean(new[new$apartment_or_house == 
+        &quot;A&quot;, ]$tip_perc)
+}
+
+
+# finding the two tailed p value:
+mean(rand_dist &gt; 0.1614303 | rand_dist &lt; -0.1614303)  #fail to reject H0, there is no significant difference between apartment and house tip percentages</code></pre>
+<pre><code>## [1] 0.2302</code></pre>
+<p>The two tailed p-value=.2302 (pvalue&gt;.05), so we fail to reject the null hypothesis. There is no significant difference in tip percentage between houses and apartments based off their total order amount.</p>
+<div id="generating-histograms" class="section level3">
+<h3>Generating histograms</h3>
+<p><br></p>
+<pre class="r"><code># histogram for observed tip percentages for
+# apartment vs houses
+plot1 &lt;- ggplot(pizza_scale, aes(x = tip_perc, fill = apartment_or_house)) + 
+    geom_histogram(bins = 7) + facet_wrap(~apartment_or_house) + 
+    ggtitle(&quot;Observed Values&quot;)
+
+# histogram for random tip percentages for
+# apartment vs houses
+plot2 &lt;- ggplot(new, aes(x = tip_perc, fill = apartment_or_house)) + 
+    geom_histogram(bins = 7) + facet_wrap(~apartment_or_house) + 
+    ggtitle(&quot;Randomization Test&quot;)
+
+grid.arrange(plot1, plot2, ncol = 2, top = &quot;Observed vs Randomization tip percentages&quot;)</code></pre>
+<p><img src="/project_2_files/figure-html/unnamed-chunk-8-1.png" width="1440" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># visualize test stat
+
+{
+    hist(rand_dist, main = &quot;&quot;, ylab = &quot;&quot;)
+    abline(v = c(-0.1614303, 0.1614303), col = &quot;red&quot;)
+}</code></pre>
+<p><img src="/project_2_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The histogram depicts the distance of means in the random data set (created by scrambling the original data), as well as the original observed difference in means (red vertical lines). Most of the random data is within the original data observed difference of means. There is lots of data that falls beyond the observed difference (reflected in our large calculated p-value of .2302).</p>
+<hr />
+</div>
+</div>
+<div id="linear-regression" class="section level1">
+<h1>Linear Regression</h1>
+<p><br></p>
+<p>I wanted to see if I could predict tip percentage from area and time. Due to the fact that both 'area' and 'time' had so many values, I created new variables to hopefully succinctly describe the data. For 'area' I created a new variable called &quot;new_area_class&quot; based on the average cost of the houses/apartments, which has four variables (instead of 17) of &quot;apartments&quot;, &quot;lower&quot;, &quot;middle&quot;, and &quot;higher&quot;. I also created a new variable from 'time' called &quot;time_group&quot;, which is chunked by two-hour intervals. The three possible values for time_group are &quot;early rush&quot; (4-6pm), &quot;late_rush&quot; (6-8pm), and &quot;night&quot;(8pm-1am).</p>
+<p>*note: I will not be centering tip_percentage because it is possible to receive a 0% tip, and therefore an understandable intercept.</p>
+<ul>
+<li>Hypotheses:
+<ul>
+<li>H01: controlling for area group, time doesn't explain variation in percent tip</li>
+<li>H02 controlling for time, area group does not explain in tip percent</li>
+</ul></li>
+</ul>
+<pre class="r"><code># creating new variable of new area class to group
+# together average housing costs
+pizza_new_area &lt;- pizza2 %&gt;% filter(!is.na(area)) %&gt;% 
+    filter(!is.na(tip_perc)) %&gt;% mutate(new_area_class = recode(area, 
+    `13` = &quot;lower&quot;, `14` = &quot;lower&quot;, `1` = &quot;lower&quot;, 
+    MAIN = &quot;apartments&quot;, `15` = &quot;apartments&quot;, `4` = &quot;middle&quot;, 
+    `11` = &quot;middle&quot;, `2` = &quot;middle&quot;, `9` = &quot;middle&quot;, 
+    `12` = &quot;middle&quot;, `10` = &quot;middle&quot;, `6` = &quot;higher&quot;, 
+    `7` = &quot;higher&quot;, `5` = &quot;higher&quot;, `8` = &quot;higher&quot;, 
+    `3` = &quot;higher&quot;, `16` = &quot;higher&quot;))
+
+# see how many observations are in each area
+pizza_new_area %&gt;% group_by(new_area_class) %&gt;% summarize(n())</code></pre>
+<pre><code>## # A tibble: 4 x 2
+##   new_area_class `n()`
+##   &lt;chr&gt;          &lt;int&gt;
+## 1 apartments        75
+## 2 higher            67
+## 3 lower             39
+## 4 middle            81</code></pre>
+<pre class="r"><code># average tip percentage based off of new area
+# classes
+pizza_new_area %&gt;% group_by(new_area_class) %&gt;% summarize(mean(tip_perc))</code></pre>
+<pre><code>## # A tibble: 4 x 2
+##   new_area_class `mean(tip_perc)`
+##   &lt;chr&gt;                     &lt;dbl&gt;
+## 1 apartments                 16.6
+## 2 higher                     20.6
+## 3 lower                      17.3
+## 4 middle                     20.5</code></pre>
+<pre class="r"><code># creating new variable of time_group
+pizza_new_area &lt;- pizza_new_area %&gt;% filter(!is.na(time)) %&gt;% 
+    mutate(time2 = str_replace(time, pattern = &quot;:&quot;, 
+        replacement = &quot;.&quot;)) %&gt;% mutate(time2 = as.numeric(time2)) %&gt;% 
+    mutate(time_group = (case_when(time2 &gt; 4 &amp; time2 &lt;= 
+        6 ~ &quot;early_rush&quot;, time2 &gt; 6 &amp; time2 &lt;= 8 ~ 
+        &quot;late_rush&quot;, time2 &gt; 8 ~ &quot;night&quot;)))
+
+
+# regression for tip_perc for tip percentage based
+# on area groups and time of delivery
+pizza_new_area &lt;- pizza_new_area %&gt;% filter(tip_perc != 
+    Inf)
+fit &lt;- lm(tip_perc ~ new_area_class * time_group, data = pizza_new_area)
+summary(fit)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = tip_perc ~ new_area_class * time_group, data = pizza_new_area)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -29.422  -6.848  -1.952   2.958 217.492 
+## 
+## Coefficients:
+##                                          Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept)                               15.6662     7.2813   2.152   0.0325 *
+## new_area_classhigher                       0.7590     8.6154   0.088   0.9299  
+## new_area_classlower                        1.4948    11.1224   0.134   0.8932  
+## new_area_classmiddle                       2.1048     8.3656   0.252   0.8016  
+## time_grouplate_rush                        0.2507     8.3265   0.030   0.9760  
+## time_groupnight                            1.2733     8.1949   0.155   0.8767  
+## new_area_classhigher:time_grouplate_rush   9.6635    10.4024   0.929   0.3539  
+## new_area_classlower:time_grouplate_rush   -0.4676    12.9046  -0.036   0.9711  
+## new_area_classmiddle:time_grouplate_rush   1.5285     9.9204   0.154   0.8777  
+## new_area_classhigher:time_groupnight      -0.6643    10.5795  -0.063   0.9500  
+## new_area_classlower:time_groupnight       -4.8455    13.1602  -0.368   0.7131  
+## new_area_classmiddle:time_groupnight      10.3775    10.5181   0.987   0.3249  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 20.59 on 224 degrees of freedom
+## Multiple R-squared:  0.04214,    Adjusted R-squared:  -0.004903 
+## F-statistic: 0.8958 on 11 and 224 DF,  p-value: 0.5453</code></pre>
+<p><br> Looking at the results from the linear regression, there does not seem to be any areas or time groups that are significantly different in tip percentage. The intercept indicates that &quot;apartment areas&quot; during early rush tip an average of 15.6662%. Analyzing the coefficent of new_area_classhigher, controlling for time group, the higher class tips an average .76% higher more compared to the &quot;apartment area&quot;. What is very interesting is that, when controlling for time, the 'lower' and 'middle' class area tips higher on average than than 'higher' class area does. However, when time is a factor, tip percentage in lower class areas is shown to decrease in the night group and the rush group.</p>
+<p><br></p>
+<div id="plot-the-regression" class="section level3">
+<h3>Plot the regression</h3>
+<pre class="r"><code># plotting the regression
+pizza_new_area %&gt;% ggplot(aes(new_area_class, tip_perc, 
+    color = time_group)) + geom_point() + geom_smooth(method = &quot;lm&quot;, 
+    se = F) + geom_jitter()</code></pre>
+<p><img src="/project_2_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="checking-assumptions-1" class="section level3">
+<h3>Checking assumptions</h3>
+<pre class="r"><code># checking for linearity
+plot(fit, 1)  #line is essentially horizontal, indicating linearity, not overall great</code></pre>
+<p><img src="/project_2_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># checking for normality
+resids &lt;- fit$residuals
+fitvals &lt;- fit$fitted.values
+par(mfrow = c(1, 2))
+hist(resids)
+qqnorm(resids)
+qqline(resids, col = &quot;red&quot;)  #looks mostly normal, but a few outliers (high tip_perc) are disturbing the normality</code></pre>
+<p><img src="/project_2_files/figure-html/unnamed-chunk-12-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># checking for homoskedasticity
+bptest(fit)  #pvalue&gt;.05, so fail to reject the null hypothesis, homoskedasticity is met</code></pre>
+<pre><code>## 
+##  studentized Breusch-Pagan test
+## 
+## data:  fit
+## BP = 14.852, df = 11, p-value = 0.1894</code></pre>
+<pre class="r"><code># using robust standard errors on original fit
+# object:
+coeftest(fit, vcov = vcovHC(fit))</code></pre>
+<pre><code>## 
+## t test of coefficients:
+## 
+##                                          Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)                              15.66624    1.20838 12.9647   &lt;2e-16
+## new_area_classhigher                      0.75896    1.84266  0.4119   0.6808
+## new_area_classlower                       1.49478    2.03328  0.7352   0.4630
+## new_area_classmiddle                      2.10483    2.83542  0.7423   0.4587
+## time_grouplate_rush                       0.25071    1.84168  0.1361   0.8918
+## time_groupnight                           1.27332    2.63543  0.4832   0.6295
+## new_area_classhigher:time_grouplate_rush  9.66354    7.51776  1.2854   0.2000
+## new_area_classlower:time_grouplate_rush  -0.46763    2.66537 -0.1754   0.8609
+## new_area_classmiddle:time_grouplate_rush  1.52846    3.67315  0.4161   0.6777
+## new_area_classhigher:time_groupnight     -0.66433    3.61059 -0.1840   0.8542
+## new_area_classlower:time_groupnight      -4.84550    3.65787 -1.3247   0.1866
+## new_area_classmiddle:time_groupnight     10.37754   15.57269  0.6664   0.5058
+##                                             
+## (Intercept)                              ***
+## new_area_classhigher                        
+## new_area_classlower                         
+## new_area_classmiddle                        
+## time_grouplate_rush                         
+## time_groupnight                             
+## new_area_classhigher:time_grouplate_rush    
+## new_area_classlower:time_grouplate_rush     
+## new_area_classmiddle:time_grouplate_rush    
+## new_area_classhigher:time_groupnight        
+## new_area_classlower:time_groupnight         
+## new_area_classmiddle:time_groupnight        
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code># how much variation is explained in the model?
+summary(fit)$r.sq  #this is a horrible model oh my</code></pre>
+<pre><code>## [1] 0.04213543</code></pre>
+<p><br> Even after using robust stanndard errors on the data, there is nothing too significant about a certain time group or area class. The coefficents stay the same. The model does an abysmal job of explaining the proportion of variation in the dataset, only about 4.2% is explained using Multiple R squared (ouch)</p>
+<hr />
+</div>
+</div>
+<div id="bootstrapped-standard-errors" class="section level1">
+<h1>Bootstrapped Standard Errors</h1>
+<p><br></p>
+<pre class="r"><code># sampling rows with replacement
+boot_dat &lt;- sample_frac(pizza_new_area, replace = T)
+
+samp_distn &lt;- replicate(5000, {
+    boot_dat &lt;- sample_frac(pizza_new_area, replace = T)
+    fit &lt;- lm(tip_perc ~ new_area_class * time_group, 
+        data = boot_dat)
+    coef(fit)
+})
+
+## Estimated/boostrap SEs
+samp_distn %&gt;% t %&gt;% as.data.frame %&gt;% summarize_all(sd)</code></pre>
+<pre><code>##   (Intercept) new_area_classhigher new_area_classlower new_area_classmiddle
+## 1    1.084183             1.715218            1.826959             2.548431
+##   time_grouplate_rush time_groupnight new_area_classhigher:time_grouplate_rush
+## 1            1.643638        2.479105                                 7.040127
+##   new_area_classlower:time_grouplate_rush
+## 1                                2.412218
+##   new_area_classmiddle:time_grouplate_rush new_area_classhigher:time_groupnight
+## 1                                 3.215639                             3.440425
+##   new_area_classlower:time_groupnight new_area_classmiddle:time_groupnight
+## 1                                  NA                             14.65611</code></pre>
+<pre class="r"><code># CIs
+samp_distn %&gt;% t %&gt;% as.data.frame %&gt;% na.omit() %&gt;% 
+    pivot_longer(1:12) %&gt;% group_by(name) %&gt;% summarize(lower = quantile(value, 
+    0.025), upper = quantile(value, 0.975))</code></pre>
+<pre><code>## # A tibble: 12 x 3
+##    name                                      lower upper
+##    &lt;chr&gt;                                     &lt;dbl&gt; &lt;dbl&gt;
+##  1 (Intercept)                               13.5  17.8 
+##  2 new_area_classhigher                      -2.59  4.12
+##  3 new_area_classhigher:time_grouplate_rush  -1.98 24.7 
+##  4 new_area_classhigher:time_groupnight      -7.75  5.93
+##  5 new_area_classlower                       -1.75  5.34
+##  6 new_area_classlower:time_grouplate_rush   -5.19  4.22
+##  7 new_area_classlower:time_groupnight      -11.9   1.31
+##  8 new_area_classmiddle                      -2.27  7.62
+##  9 new_area_classmiddle:time_grouplate_rush  -5.14  7.50
+## 10 new_area_classmiddle:time_groupnight     -10.1  44.0 
+## 11 time_grouplate_rush                       -2.98  3.50
+## 12 time_groupnight                           -3.04  6.57</code></pre>
+<p><br> Using bootstrapped standard errrors and a 95% CI greatly changed the intercept compared to using robust standard errors. Using this technique, the average tip percentage an &quot;apartment&quot; area during early rush is 1.09 standard deviations away from the mean, which the average percentage for this group is between 13.38% and 17.66% (using a 95% confidence interval). The higher class area during early rush tips anywhere between 10.837% and 21.79% using a 95% CI. The widest range group and time for tip_perc is in the area &quot;middle&quot; and time &quot;night&quot;, with a 95% CI between 3.11% and 61.09%.</p>
+<hr />
+</div>
+<div id="logistic-regression-model-1" class="section level1">
+<h1>Logistic Regression Model #1</h1>
+<p><br> Similar concept here. I wanted to see if I could predict housing type from percentage tipped and time (hour:minute, rather than time group) of delivery</p>
+<pre class="r"><code># predict house type from perc_tip and time? OR
+# predict tip method from perc_tip and time
+pizza_fit &lt;- pizza_new_area %&gt;% mutate(y = ifelse(apartment_or_house == 
+    &quot;H&quot;, 1, 0)) %&gt;% ungroup()
+
+# finding average time of deliveries
+pizza_fit %&gt;% summarize(mean(time2))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   `mean(time2)`
+##           &lt;dbl&gt;
+## 1          7.18</code></pre>
+<pre class="r"><code># mean center time, since time is never 0
+pizza_fit$time2 &lt;- pizza_fit$time2 - mean(pizza_fit$time2)
+
+
+# running logistic regression
+fit3 &lt;- glm(y ~ tip_perc + time2, data = pizza_fit, 
+    family = binomial(link = &quot;logit&quot;))
+
+coeftest(fit3)</code></pre>
+<pre><code>## 
+## z test of coefficients:
+## 
+##              Estimate Std. Error z value Pr(&gt;|z|)   
+## (Intercept)  0.372773   0.247836  1.5041 0.132551   
+## tip_perc     0.015658   0.012000  1.3048 0.191957   
+## time2       -0.231818   0.075707 -3.0620 0.002198 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>exp(coef(fit3))</code></pre>
+<pre><code>## (Intercept)    tip_perc       time2 
+##   1.4517553   1.0157814   0.7930905</code></pre>
+<pre class="r"><code>Pr_of_house_mean_time = 1.4517/(1 + 1.4517)
+
+# average tip percentage from houses vs apartment
+pizza_new_area %&gt;% group_by(apartment_or_house) %&gt;% 
+    summarize(mean(tip_perc))</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   apartment_or_house `mean(tip_perc)`
+##   &lt;chr&gt;                         &lt;dbl&gt;
+## 1 A                              16.3
+## 2 H                              20.2</code></pre>
+<p><br> Predicted odds of delivering to a House when mean time of deliveries (7:18 pm) and tip percentage is zero is 1.4517, or a probability of 59.21%. Controlling for time, for every 1 unit increase in tip percentage, odds of delivering to a House go up by a factor of 1.0157. For every 1 minute increase in time, the odds of delivering to a house increase by a factor of .7930. <br></p>
+<pre class="r"><code># confusion matrix
+pizza_fit$prob &lt;- predict(fit3, type = &quot;response&quot;)
+pizza_fit$predicted &lt;- ifelse(pizza_fit$prob &gt; 0.5, 
+    &quot;House&quot;, &quot;Apartment&quot;)
+table(truth = pizza_fit$apartment_or_house, prediction = pizza_fit$predicted) %&gt;% 
+    addmargins</code></pre>
+<pre><code>##      prediction
+## truth Apartment House Sum
+##   A          15    67  82
+##   H          10   144 154
+##   Sum        25   211 236</code></pre>
+<pre class="r"><code># for (Accuracy, Sensitivity, Specificity,
+# Precision, AUC)
+class_diag &lt;- function(probs, truth) {
+    
+    if (is.numeric(truth) == FALSE &amp; is.logical(truth) == 
+        FALSE) 
+        truth &lt;- as.numeric(truth) - 1
+    
+    tab &lt;- table(factor(probs &gt; 0.5, levels = c(&quot;FALSE&quot;, 
+        &quot;TRUE&quot;)), truth)
+    prediction &lt;- ifelse(probs &gt; 0.5, 1, 0)
+    acc = mean(truth == prediction)
+    sens = mean(prediction[truth == 1] == 1)
+    spec = mean(prediction[truth == 0] == 0)
+    ppv = mean(truth[prediction == 1] == 1)
+    f1 = 2 * (sens * ppv)/(sens + ppv)
+    
+    # CALCULATE EXACT AUC
+    ord &lt;- order(probs, decreasing = TRUE)
+    probs &lt;- probs[ord]
+    truth &lt;- truth[ord]
+    
+    TPR = cumsum(truth)/max(1, sum(truth))
+    FPR = cumsum(!truth)/max(1, sum(!truth))
+    
+    dup &lt;- c(probs[-1] &gt;= probs[-length(probs)], FALSE)
+    TPR &lt;- c(0, TPR[!dup], 1)
+    FPR &lt;- c(0, FPR[!dup], 1)
+    
+    n &lt;- length(TPR)
+    auc &lt;- sum(((TPR[-1] + TPR[-n])/2) * (FPR[-1] - 
+        FPR[-n]))
+    
+    data.frame(acc, sens, spec, ppv, auc)
+}
+
+# finding accuracy, sensitivity (TPR), specificity
+# (TNR), precision
+class_diag(pizza_fit$prob, pizza_fit$y)</code></pre>
+<pre><code>##         acc      sens      spec       ppv       auc
+## 1 0.6737288 0.9350649 0.1829268 0.6824645 0.6256731</code></pre>
+<pre class="r"><code># density plot of the log-odds (logit)
+pizza_fit$logit &lt;- predict(fit3)
+pizza_fit %&gt;% ggplot(aes(logit, fill = apartment_or_house)) + 
+    geom_density(alpha = 0.3) + geom_vline(xintercept = 0, 
+    lty = 2)</code></pre>
+<p><img src="/project_2_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># ROC plot
+ROCplot &lt;- ggplot(pizza_fit) + geom_roc(aes(d = y, 
+    m = prob), n.cuts = 0)
+ROCplot</code></pre>
+<p><img src="/project_2_files/figure-html/unnamed-chunk-15-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># AUC width
+calc_auc(ROCplot)</code></pre>
+<pre><code>##   PANEL group       AUC
+## 1     1    -1 0.6256731</code></pre>
+<p><br> The accuracy of the model predicting housing type from tip percentage from time is 67.37%. The sensitivity, or the true positive rate of the model is pretty good, at 93.5%. However, the specificity, or the true negative rate, is not so great, at 18.29%.The precision is 68.24%. The ROC plot indicates our model is not very good at distinguishing false positives from true positives, with an AUC of 62.56%. Overall, this model is not great at determining housing type from tip percentage and time of day. The density plot shows a huge amount of overlap between the predicted log odds for houses and apartments. This kinda makes sense. While I usually notice a trend of tip percentage being better around early rush, sometimes some really drunk people late at night in apartments will tip nicely. Sometimes, people who live in huge houses in nice neighborhoods will tip poorly during our busiest time of the day. It's all about the love of the game, delivering pizzas, rather than counting on rich people to be frivolous with their money and less fortunate people to be stingy.</p>
+<hr />
+</div>
+<div id="logistic-regression-model-2" class="section level1">
+<h1>Logistic Regression Model #2</h1>
+<p><br> This time, I re-ran the logistic regression model with all variables in the data set (that did not overlap in information). Then, after performing Lasso on the regression, I chose the best (most predictive) variables, then Cross Validated the model to make sure the AUC did not indicate overfitting. <br></p>
+<pre class="r"><code># lg for all variables that don&#39;t overlap each
+# other
+pizza2 &lt;- pizza2 %&gt;% na.omit() %&gt;% mutate(y = ifelse(apartment_or_house == 
+    &quot;H&quot;, 1, 0)) %&gt;% select(-apartment_or_house)
+fit &lt;- glm(y ~ area + tip_perc + rate + tip_method + 
+    hours_worked + position_worked, data = pizza2, 
+    family = &quot;binomial&quot;)
+
+probs1 &lt;- predict(fit, type = &quot;response&quot;)
+class_diag(probs1, pizza2$y)</code></pre>
+<pre><code>##         acc     sens     spec       ppv       auc
+## 1 0.9491525 0.974026 0.902439 0.9493671 0.9916455</code></pre>
+<pre class="r"><code># CV time
+k = 10
+
+data &lt;- pizza2 %&gt;% sample_frac  #put rows of dataset in random order
+folds &lt;- ntile(1:nrow(data), n = 10)  #create fold labels
+
+diags &lt;- NULL
+for (i in 1:k) {
+    train &lt;- data[folds != i, ]  #create training set (all but fold i)
+    test &lt;- data[folds == i, ]  #create test set (just fold i)
+    truth &lt;- test$y
+    
+    fit &lt;- glm(y ~ area + tip_perc + rate + tip_method + 
+        hours_worked + position_worked, data = train, 
+        family = &quot;binomial&quot;)
+    probs &lt;- predict(fit, newdata = test, type = &quot;response&quot;)
+    
+    diags &lt;- rbind(diags, class_diag(probs, truth))
+}
+
+summarize_all(diags, mean)  #LOTS of overfitting</code></pre>
+<pre><code>##         acc      sens      spec       ppv       auc
+## 1 0.9106884 0.9255634 0.8734488 0.9367489 0.9708016</code></pre>
+<p><br> Using all the variables to predict housing type, the accuracy was astonishingly high, at 94.91%, along with a great TPR of 97.4%, TNR of 90.24% and an AUC of 99.16%. After running a cross-validation to see how well the data can predict housing type on new variables, the AUC dropped dramatically to 69.66%, as expected, which indicates overfitting. <br></p>
+<pre class="r"><code># lasso
+library(glmnet)
+y &lt;- as.matrix(pizza2$y)
+x &lt;- model.matrix(y ~ area + tip_perc + rate + tip_method + 
+    hours_worked + position_worked, data = pizza2)[, 
+    -1]
+
+cv &lt;- cv.glmnet(x, y, family = &quot;binomial&quot;)
+
+cv &lt;- cv.glmnet(x, y, family = &quot;binomial&quot;)
+lasso &lt;- glmnet(x, y, family = &quot;binomial&quot;, lambda = cv$lambda.1se)
+coef(lasso)</code></pre>
+<pre><code>## 23 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
+##                            s0
+## (Intercept)          2.583601
+## area10               .       
+## area11               .       
+## area12               .       
+## area13               .       
+## area14              -2.562267
+## area15              -4.681729
+## area16              -2.100138
+## area2                .       
+## area3                .       
+## area4                .       
+## area5                .       
+## area6                .       
+## area7                .       
+## area8                .       
+## area9                .       
+## areaMAIN            -5.468004
+## tip_perc             .       
+## rate                 .       
+## tip_methodwrite in   .       
+## hours_worked         .       
+## position_workedLate  .       
+## position_workedRush  .</code></pre>
+<pre class="r"><code># cross-validating lasso model
+set.seed(1234)
+k = 10
+
+data &lt;- pizza2 %&gt;% sample_frac
+folds &lt;- ntile(1:nrow(data), n = 10)
+
+diags &lt;- NULL
+for (i in 1:k) {
+    train &lt;- data[folds != i, ]
+    test &lt;- data[folds == i, ]
+    truth &lt;- test$y
+    
+    fit &lt;- glm(y ~ area, data = train, family = &quot;binomial&quot;)
+    probs &lt;- predict(fit, newdata = test, type = &quot;response&quot;)
+    
+    diags &lt;- rbind(diags, class_diag(probs, truth))
+}
+
+diags %&gt;% summarize_all(mean)</code></pre>
+<pre><code>##         acc     sens  spec       ppv       auc
+## 1 0.9190217 0.929325 0.875 0.9530369 0.9785384</code></pre>
+<p><br></p>
+<p>A lasso was performed to indicate which variables are the best at predicting housing type,in which only areas 14,15,16,7, and MAIN were needed to predict housing type. For clarity purposes, I used the whole &quot;area&quot; variable, rather than parsing out the areas into sections. Re-running a CV on the fit model built using the lasso output, the AUC increased to 97.8%, close to the original fit AUC of 99.16%. All other in sample classification diagnostics between original fit and lasso fit were almost identical.</p>
+<p><br></p>
+<p>I have to admit that this was very disappointing. I was hoping to be able to predict housing type like a pizza wizard off of something more unrelated than area. Most areas are broken into houses vs apartments anyway, so the result is not very suprising. Oh well.</p>
+<hr />
+</div>
+<div id="random-stats" class="section level1">
+<h1>Random Stats</h1>
+<p><br> Which apartment tips the best?</p>
+<pre class="r"><code>#visualizing by stats which apartment tips best percentage-wise
+
+#fixing pizza2 to have apartment or house variable again:
+pizza %&gt;% 
+  group_by(Date) %&gt;% 
+  filter(!is.na(tip)) %&gt;% 
+  filter(!is.na(total)) %&gt;% 
+  mutate(total_tips=sum(tip)) %&gt;% 
+  mutate(rate=(total_tips/hours_worked))-&gt;pizza2
+
+pizza2 %&gt;% 
+  filter(apartment_or_house==&quot;A&quot;) %&gt;% 
+  group_by(street_name) %&gt;% 
+  filter(!tip_perc&gt;60) %&gt;% #getting rid of the outlier
+  summarize(avg_tip_perc=mean(tip_perc)) %&gt;%
+  arrange(desc(avg_tip_perc))</code></pre>
+<pre><code>## # A tibble: 28 x 2
+##    street_name            avg_tip_perc
+##    &lt;chr&gt;                         &lt;dbl&gt;
+##  1 &quot;Altis &quot;                       20.6
+##  2 &quot;Grand Oaks Loop&quot;              20.0
+##  3 &quot;2930 Grand Oaks Loop&quot;         19.5
+##  4 &quot;11908 Anderson Mill &quot;         18.9
+##  5 &quot;Altis&quot;                        17.7
+##  6 &quot;1900 Little Elm Trl&quot;          17.6
+##  7 &quot;2201 Lakeline &quot;               17.2
+##  8 &quot;2850 Lakeline&quot;                17.0
+##  9 &quot;2801 Lakeline&quot;                16.7
+## 10 &quot;2304 Lakeline&quot;                16.7
+## # … with 18 more rows</code></pre>
+<pre class="r"><code>pizza2 %&gt;%  
+  filter(apartment_or_house==&quot;A&quot;) %&gt;% 
+  group_by(street_name) %&gt;% 
+  filter(!tip_perc&gt;60) %&gt;% #getting rid of the outlier
+  mutate(avg_tip_perc=mean(tip_perc)) %&gt;% 
+  ggplot()+
+  geom_jitter(aes(x=1:109,y=tip_perc))+
+  geom_jitter(aes(x=20, y=avg_tip_perc), color=&quot;red&quot;, shape=&quot;square&quot;)+
+  facet_wrap(~street_name)</code></pre>
+<p><img src="/project_2_files/figure-html/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Correlation heat map of all variables</p>
+<pre class="r"><code># correlation for all numeric variables
+pizza_new_area &lt;- pizza_new_area %&gt;% select(-time2)
+ggcorr(pizza_new_area, label = TRUE)</code></pre>
+<p><img src="/project_2_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># for write-ins at apartments, whats the mean
+# tip_perc?
+pizza2 %&gt;% filter(apartment_or_house == &quot;A&quot;) %&gt;% filter(tip_method == 
+    &quot;write in&quot;) %&gt;% group_by(street_name) %&gt;% summarize(mean = mean(tip_perc)) %&gt;% 
+    arrange(desc(mean))</code></pre>
+<pre><code>## # A tibble: 10 x 2
+##    street_name             mean
+##    &lt;chr&gt;                  &lt;dbl&gt;
+##  1 &quot;350 Cypress Creek&quot;     22.6
+##  2 &quot;11908 Anderson Mill &quot;  21.1
+##  3 &quot;2000 Lakeline&quot;         20.7
+##  4 &quot;Altis &quot;                20.6
+##  5 &quot;2930 Grand Oaks Loop&quot;  19.5
+##  6 &quot;Altis&quot;                 14.0
+##  7 &quot;13010 Ridgeline Blvd&quot;  12.3
+##  8 &quot;12638 Ridgeline Blvd&quot;  11.2
+##  9 &quot;2829 Lakeline&quot;          0  
+## 10 &quot;3405 El Salido Pkwy&quot;    0</code></pre>
+<pre class="r"><code># for cash orders at apartments, what&#39;s the mean
+# tip_perc?
+pizza2 %&gt;% filter(apartment_or_house == &quot;A&quot;) %&gt;% filter(tip_method == 
+    &quot;cash order&quot;) %&gt;% group_by(street_name) %&gt;% summarize(mean = mean(tip_perc)) %&gt;% 
+    arrange(desc(mean))</code></pre>
+<pre><code>## # A tibble: 4 x 2
+##   street_name      mean
+##   &lt;chr&gt;           &lt;dbl&gt;
+## 1 32018 El Salido 18.6 
+## 2 2850 Lakeline   17.8 
+## 3 2000 Lakeline   17.0 
+## 4 1600 Lakeline    7.22</code></pre>
+<pre class="r"><code># for all cash orders, whats the mean tip_perc for
+# each day?
+pizza2 %&gt;% filter(tip_method == &quot;cash order&quot;) %&gt;% summarize(mean = mean(tip_perc)) %&gt;% 
+    arrange(desc(mean))</code></pre>
+<pre><code>## # A tibble: 9 x 2
+##   Date       mean
+##   &lt;chr&gt;     &lt;dbl&gt;
+## 1 10/15/20 54.3  
+## 2 10/23/20 37.0  
+## 3 11/15/20 25.4  
+## 4 10/31/20 23.4  
+## 5 10/8/20  18.6  
+## 6 11/1/20  17.8  
+## 7 10/9/20  17.7  
+## 8 10/18/20 12.1  
+## 9 11/12/20  0.806</code></pre>
+</div>

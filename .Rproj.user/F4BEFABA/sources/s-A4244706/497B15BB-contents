@@ -33,48 +33,39 @@ print(oligos)
 Now we have found the several potential oligo sequences to insert into our plasmid! Let's create a class that contains functions to help create the reverse oligo!
 
 <br>
+
 ```{python}
 
-class Oligo_Reverse:
-    
-    def __init__(self, sq):
-        self.sq= sq
-        
-        
-    
-    #first, reverse sequence
-    def my_reverse(sq): 
-        st = "" 
-        for x in sq: 
-            st = x + st
-        return st
+oligo1= "GGAAATGATGAATTGGGAG"
 
-    #Then generate the complementary sequence
-    def reverse_oligo(st):
-        reverse_sq=""
-        for bp in st:
-            if bp == "A":
-              reverse_sq + "T"
-            elif bp == "G":
-              reverse_sq + "C"
-            elif bp =="T":
-              reverse_sq + "A"
-            elif bp =="C":
-              reverse_sq + "G"
-        return reverse_sq
-    
-    def __str__(self):
-        return  "forward oligo sequence is", (self.sq) +\
-                "reverse oligo sequence is", reverse_sq
+def my_reverse(sq): 
+  str = "" 
+  for i in sq: 
+    str = i + str
+  return str
 
+sq=(my_reverse(oligo1))
 
-#now let's use our class!
-    
-oligo1= Oligo_Reverse("GGAAATGATGAATTGGGAG"," ") 
-print(oligo1)
-    
-seq="GGAAATGATGAATTGGGAG"
-reverse_oligo(sq)
+#Then generate the complementary sequence
+def reverse_oligo(sq):
+  reverse_sq = ""
+  for bp in sq:
+    if bp == "A":
+      reverse_sq += "T"
+    elif bp == "G":
+      reverse_sq += "C"
+    elif bp =="T":
+      reverse_sq += "A"
+    elif bp =="C":
+      reverse_sq += "G"
+  return reverse_sq
   
-````
+rsq=(reverse_oligo(sq))
 
+print("forward sequence is: "+ oligo1)
+print("reverse sequence is: " + rsq)
+
+
+```
+
+Now we have generated sequences both in forward and reverse directions to insert into our CRISPR plasmid. Hooray!

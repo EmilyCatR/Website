@@ -1,0 +1,34 @@
+"0","def my_reverse(sq): 
+  str = """" 
+  for i in sq: 
+    str = i + str
+  return str
+  
+oligo1= ""GGAAATGATGAATTGGGAG""
+sq=(my_reverse(oligo1))
+
+#Then generate the complementary sequence
+
+
+def reverse_oligo(sq):
+  reverse_sq = """"
+  for bp in sq:
+    if bp == ""A"":
+      reverse_sq += ""T""
+    elif bp == ""G"":
+      reverse_sq += ""C""
+    elif bp ==""T"":
+      reverse_sq += ""A""
+    elif bp ==""C"":
+      reverse_sq += ""G""
+  return reverse_sq
+  
+rsq=(reverse_oligo(sq))
+
+print(""forward sequence is: ""+ oligo1)
+print(""reverse sequence is: "" + rsq)
+
+"
+"1","forward sequence is: GGAAATGATGAATTGGGAG
+reverse sequence is: CTCCCAATTCATCATTTCC
+"
