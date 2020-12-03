@@ -39,7 +39,7 @@ theme = "hugo-sustain"
   name = "CV"
   identifier = "CV"
   weight = 300
-  url = "/CV_Emily_Reed_Website.pdf"
+  url = "/CV_Emily_Reed_Website"
 [[menu.main]]
   name="About me"
   identifer= "About me"
