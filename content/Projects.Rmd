@@ -1,12 +1,11 @@
 ---
 author: "Emily"
 output: html_document
-date: False
 ---
 ## Projects for Data Interpretation: R
 
-- [Flu Project: Exploring dpylr and the tidyverse](/project1.html/)
-- [Pizza Project: Data stats and interpreting logistic regressions](/project2.html/)
+- [Flu Project: Exploring dpylr and the tidyverse](/project1)
+- [Pizza Project: Data stats and interpreting logistic regressions](/project2)
 
 
 ## Lab Projects: Hofmann Lab
