@@ -1,6 +1,7 @@
 ---
 author: "Emily"
 output: html_document
+date: False
 ---
 ## Projects for Data Interpretation: R
 
