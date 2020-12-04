@@ -1,14 +1,13 @@
 ---
 title: Python Regex for Detecting PAM sequences
 author: Emily
+date: '2020-12-02'
 slug: set-up
 categories: []
 tags: []
 description: ''
 ---
 <center>
-
-![CRISPR](/2020-11-10-set-up/index_files/CRISPY.jpg)
 
 </center>
 
