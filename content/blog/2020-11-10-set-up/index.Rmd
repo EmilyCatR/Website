@@ -1,7 +1,6 @@
 ---
 title: Python Regex for Detecting PAM sequences
 author: Emily
-date: '2020-11-10'
 slug: set-up
 categories: []
 tags: []
