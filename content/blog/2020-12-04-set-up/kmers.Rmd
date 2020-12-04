@@ -1,0 +1,48 @@
+
+---
+title: Counting K-mers
+author: Emily
+date: '2020-12-03'
+slug: set-up
+categories: []
+tags: []
+description: ''
+---
+
+Nucleotide sequences can be read in three different reading frame (i.e starting on first nucelotide, second or thrida nucleotide and grouping bases in groups of three.) One can find all the k-mers, or groups of three starting the reading frame on any nucleotide, then counting up the intsnaces in which that k-mer sequence occurs. I created a function that takes in a sequence, finds all the k-mers, and stores them in a dictionary.
+
+
+```{python}
+import re 
+from collections import Counter
+
+my_seq1 = "ATCATCATG"
+my_seq2 = "CAGCCCAATCAGGCTCTACTGCCACTAAACTTACGCAGGATATATTTACGCCGACGTACT"
+
+def kmers(seq):
+  n=len(my_seq1)
+  unique_mer_list=[]
+  mer_list=[]
+  
+  #finding mers
+  mer1=re.findall(r"...", seq)
+  mer2=re.findall(r"...", seq[1:n])
+  mer3=re.findall(r"...", seq[2:n])
+  
+  #add all mers to mer_list
+  for m in mer1:
+    mer_list.append(m)
+  for m in mer2:
+    mer_list.append(m)
+  for m in mer3:
+    mer_list.append(m)
+  
+  #count instances:
+  dict=Counter(mer_list)
+  print(dict)
+  
+kmers(my_seq1)
+kmers(my_seq2)
+```
+
+
