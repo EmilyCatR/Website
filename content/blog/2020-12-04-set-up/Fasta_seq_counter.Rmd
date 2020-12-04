@@ -1,30 +1,47 @@
 ---
 title: "FASTA Sequence Counter"
 author: "Emily"
-date: "12/4/2020"
+date: "2020-12-04"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+FASTA files are files that contain DNA sequences. They can be read in and evaluated through python a few different ways. New sequences are denoted by a ">" in the first line.
+
+<br>
+
+In this first method, I use a loop to count the number of sequences.
+```{python}
+def fasta():
+    filename=input("please enter FASTA file name (e.g name.fasta): ")
+    file_handle = open(filename, "r") # open in 'r' mode  to read the file
+    #contents = file_handle.read() # reads the entire file
+    
+    seq_num= 0
+    for line in file_handle:
+        for char in line:
+            if char == ">":
+                seq_num += 1
+    print("The file contains" , seq_num , "sequence(s).")          
+    
+    file_handle.close()
 ```
 
-## R Markdown
+<br>
+In this second way, I create a function and use regex (easy to understand and faster to write) to count the number of sequences in the file.
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+```{python}
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+def seq_num():
+    filename=input("please enter FASTA file name (e.g name.fasta): ")
+    file_handle = open(filename, "r") # open in 'r' mode  to read the file
+    contents = file_handle.read()
 
-```{r cars}
-summary(cars)
+    seq=re.findall(r'>', contents)
+    seq_num=len(seq)
+    print("The file contains" , seq_num , "sequence(s).") 
+    
+    file_handle.close()
+    
+seq_num()
+
 ```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
