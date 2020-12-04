@@ -11,6 +11,7 @@ FASTA files are files that contain DNA sequences. They can be read in and evalua
 
 In this first method, I use a loop to count the number of sequences.
 ```{python}
+
 def fasta():
     filename=input("please enter FASTA file name (e.g name.fasta): ")
     file_handle = open(filename, "r") # open in 'r' mode  to read the file
