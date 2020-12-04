@@ -9,7 +9,7 @@ description: ''
 ---
 <center>
 
-![CRISPR](/2020-11-10-set-up/index_files/CRISPY.png)
+![CRISPR](/2020-11-10-set-up/index_files/CRISPY.jpg)
 
 </center>
 

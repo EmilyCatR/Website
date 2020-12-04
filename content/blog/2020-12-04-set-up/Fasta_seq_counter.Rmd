@@ -1,7 +1,7 @@
 ---
-title: "FASTA Sequence Counter"
-author: "Emily"
-date: "2020-12-04"
+title: FASTA Sequence Counter
+author: Emily
+date: '2020-12-04'
 output: html_document
 ---
 
