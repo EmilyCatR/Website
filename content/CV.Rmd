@@ -1,7 +1,6 @@
 ---
 title: CV
 author: Emily
-date: '2020/12/03'
 output: html_document
 ---
 
