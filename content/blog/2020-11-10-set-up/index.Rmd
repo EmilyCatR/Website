@@ -17,6 +17,11 @@ description: ''
 
 Regex is a python function that allows users to search for anything within a string. For example, I have taken the coding sequence for a transcription factor called "WRKY41", a protein responsible for regulating the transcription of an ABA target gene (i.e abi3) in Arabidopsis plants. My lab wanted to contruct a CRISPR based plasmid to knockout this gene in plants. To do so, we needed to find the PAM sequence NGG (where N is any nucleotide) and return the 19 nucleotides in front of it. 
 
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(eval = TRUE, fig.align = "center", warning = F, message = F, tidy=T, tidy.opts=list(width.cutoff=50))
+library(dplyr)
+```
+
 <br>
 
 ```{r}

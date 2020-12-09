@@ -60,7 +60,7 @@ library(rstatix)
 ```
 <br>
 ```{r}
-setwd("Projects")
+
 pizza <- read.csv("pizza_data.csv") 
 glimpse(pizza)
 ```
@@ -121,14 +121,14 @@ pairwise.t.test(pizza_no_NAs$rate,pizza_no_NAs$position_worked, p.adj="none")
 
 
 #probability of making a type 1 error
-Pr_type1error=1-.95^5
+Pr_type1error=1-.95^6
 Pr_type1error
 
 #adjusted significance level, still significant
-a= .05/5
+a= .05/6
 ```
 <br>
-Five statistical tests were performed. The probability of making a type 1 error was 22.6%, so that also must be taken in to consideration. To account for this, the adjusted significance level was calculated to be .01. Using this number, late and close are significantly different in rate per hour (p value<.01), as well as rush and close (p value<.01). However, rush and late are not significantly different from each other in rate or tip_perc (p value>.01).
+six statistical tests were performed. The probability of making a type 1 error was 26.5%, so that also must be taken in to consideration. To account for this, the adjusted significance level was calculated to be .008. Using this number, late and close are significantly different in rate per hour (p value<.008), as well as rush and close (p value<.008). However, rush and late are not significantly different from each other in rate or tip_perc (p value>.008).
 <br>
 
 ###Checking Assumptions
