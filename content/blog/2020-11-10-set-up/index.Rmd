@@ -9,6 +9,8 @@ description: ''
 ---
 <center>
 
+![](https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.genengnews.com%2Fwp-content%2Fuploads%2F2019%2F03%2FMar1_2019_Getty_1128491841_CRISPR-CAS9_1400.jpg&imgrefurl=https%3A%2F%2Fwww.genengnews.com%2Finsights%2Ffor-confidence-in-crispr-outcomes-results-must-be-fully-validated%2F&tbnid=RlZN3wgBYfdjfM&vet=12ahUKEwjFi-mVhcDtAhXFVawKHbcTBB4QMygLegUIARDnAQ..i&docid=HEHeVLcAjST5MM&w=1400&h=789&q=crispr&ved=2ahUKEwjFi-mVhcDtAhXFVawKHbcTBB4QMygLegUIARDnAQ)
+
 </center>
 
 <br>
@@ -16,20 +18,23 @@ description: ''
 Regex is a python function that allows users to search for anything within a string. For example, I have taken the coding sequence for a transcription factor called "WRKY41", a protein responsible for regulating the transcription of an ABA target gene (i.e abi3) in Arabidopsis plants. My lab wanted to contruct a CRISPR based plasmid to knockout this gene in plants. To do so, we needed to find the PAM sequence NGG (where N is any nucleotide) and return the 19 nucleotides in front of it. 
 
 <br>
+
 ```{r}
 library(reticulate)
+
+
 
 ```
 
 
 ```{python}
-import re 
+import re
 
 #our WRKY41 transcription factor DNA coding sequence
 cds= "ATGGAAATGATGAATTGGGAGCGGAGGAGTTTGCTAAACGAGCTAATTCATGGACTAAAAGCGGCCAAGCAGCTTCAGGGTTCGTCTTCTCCATCGTTGTCAGCTTCTTCTTCATATTTGACGACGGAGATAAAGGAGAATCTCTTACATAACATAGTTTCTTCCTTCAAAAAAGCTATTTTGATGCTCAACGGATCCACCACACAACACAATCCAACGATAGAGCTTGCGCCTGATCCCCTAGCTCATCCCGGAAAGGTTCCAGGATCTCCAGCATCGATCACCGGAAATCCGAGAAGCGAAGAGTTTTTCAATGTAAGATCGAAAGAATTCAACTTAAGTTCTAAAAAGAGGAAGATGTTGCCAAAGTGGACAGAGCAAGTGAGAATTAGCCCAGAGAGAGGCTTAGAAGGACCTCATGACGATATCTTCAGCTGGAGAAAATATGGCCAGAAAGACATTTTGGGCGCCAAATTCCCAAGGAGTTATTACAGATGCACATTTCGTAACACACAGTACTGTTGGGCTACGAAACAAGTCCAAAGATCGGACGGTGATCCAACGATCTTCGAAGTAACATACAGAGGAACACACACTTGTTCACAGGGGATCCCACTTCCAGAGAAACGAGAAACCAAACCAAAACACACAGTAGCAGTAAATTACCAGAATCTCAGGGCCAGTCTTACCGTACGTACCGGCGGACTTGGAAGCGAAGCTTTCTCATTCCCCGTCACGTCGCCGTTATACACTTACGAGTCCATCAACGGTGGTGGAACGTTTTACCACCACGTGGGAAGTTCTGGTCCGTCGGATTTCACTGGATTGATCTCAACAAATACTTCCACAGGAAGTTCTCCAATCTTCGACGTTAATTTTCAATTTGATCCAACGGCTGAGATTAACACAGGCTTCCCCACTTTTTTCCACAATTCGATTTAA"
 
 #using regex to find all instances of 19 nucleotides that come before our PAM sequence, NGG
-oligos = re.findall(r"\w{19}.GG", cds)
+oligos = re.findall(r"\w{19}.GG", r.cds)
 
 #all possible oligos we could use
 print(oligos)
@@ -77,3 +82,4 @@ print("reverse sequence is: " + rsq)
 ```
 
 Now we have generated sequences both in forward and reverse directions to insert into our CRISPR plasmid. Hooray!
+
