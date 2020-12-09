@@ -13,12 +13,16 @@ description: ''
 
 
 <center>
+<div class="figure">
+<img src="https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.genengnews.com%2Fwp-content%2Fuploads%2F2019%2F03%2FMar1_2019_Getty_1128491841_CRISPR-CAS9_1400.jpg&amp;imgrefurl=https%3A%2F%2Fwww.genengnews.com%2Finsights%2Ffor-confidence-in-crispr-outcomes-results-must-be-fully-validated%2F&amp;tbnid=RlZN3wgBYfdjfM&amp;vet=12ahUKEwjFi-mVhcDtAhXFVawKHbcTBB4QMygLegUIARDnAQ..i&amp;docid=HEHeVLcAjST5MM&amp;w=1400&amp;h=789&amp;q=crispr&amp;ved=2ahUKEwjFi-mVhcDtAhXFVawKHbcTBB4QMygLegUIARDnAQ" />
+
+</div>
 </center>
 <p><br></p>
 <p>Regex is a python function that allows users to search for anything within a string. For example, I have taken the coding sequence for a transcription factor called &quot;WRKY41&quot;, a protein responsible for regulating the transcription of an ABA target gene (i.e abi3) in Arabidopsis plants. My lab wanted to contruct a CRISPR based plasmid to knockout this gene in plants. To do so, we needed to find the PAM sequence NGG (where N is any nucleotide) and return the 19 nucleotides in front of it.</p>
 <p><br></p>
 <pre class="r"><code>library(reticulate)</code></pre>
-<pre class="python"><code>import re 
+<pre class="python"><code>import re
 
 #our WRKY41 transcription factor DNA coding sequence
 cds= &quot;ATGGAAATGATGAATTGGGAGCGGAGGAGTTTGCTAAACGAGCTAATTCATGGACTAAAAGCGGCCAAGCAGCTTCAGGGTTCGTCTTCTCCATCGTTGTCAGCTTCTTCTTCATATTTGACGACGGAGATAAAGGAGAATCTCTTACATAACATAGTTTCTTCCTTCAAAAAAGCTATTTTGATGCTCAACGGATCCACCACACAACACAATCCAACGATAGAGCTTGCGCCTGATCCCCTAGCTCATCCCGGAAAGGTTCCAGGATCTCCAGCATCGATCACCGGAAATCCGAGAAGCGAAGAGTTTTTCAATGTAAGATCGAAAGAATTCAACTTAAGTTCTAAAAAGAGGAAGATGTTGCCAAAGTGGACAGAGCAAGTGAGAATTAGCCCAGAGAGAGGCTTAGAAGGACCTCATGACGATATCTTCAGCTGGAGAAAATATGGCCAGAAAGACATTTTGGGCGCCAAATTCCCAAGGAGTTATTACAGATGCACATTTCGTAACACACAGTACTGTTGGGCTACGAAACAAGTCCAAAGATCGGACGGTGATCCAACGATCTTCGAAGTAACATACAGAGGAACACACACTTGTTCACAGGGGATCCCACTTCCAGAGAAACGAGAAACCAAACCAAAACACACAGTAGCAGTAAATTACCAGAATCTCAGGGCCAGTCTTACCGTACGTACCGGCGGACTTGGAAGCGAAGCTTTCTCATTCCCCGTCACGTCGCCGTTATACACTTACGAGTCCATCAACGGTGGTGGAACGTTTTACCACCACGTGGGAAGTTCTGGTCCGTCGGATTTCACTGGATTGATCTCAACAAATACTTCCACAGGAAGTTCTCCAATCTTCGACGTTAATTTTCAATTTGATCCAACGGCTGAGATTAACACAGGCTTCCCCACTTTTTTCCACAATTCGATTTAA&quot;
